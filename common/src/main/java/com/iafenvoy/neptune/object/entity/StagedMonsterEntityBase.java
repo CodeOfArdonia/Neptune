@@ -17,12 +17,13 @@ public class StagedMonsterEntityBase extends MonsterEntityBase implements Stage.
     protected StagedMonsterEntityBase(EntityType<? extends HostileEntity> entityType, World world, EntityGroup mobType, Stage stage) {
         super(entityType, world, mobType);
         this.stage = stage;
+        this.dataTracker.set(STAGE, this.stage.getIndex());
     }
 
     @Override
     protected void initDataTracker() {
         super.initDataTracker();
-        this.dataTracker.startTracking(STAGE, this.stage.getIndex());
+        this.dataTracker.startTracking(STAGE, 0);
     }
 
     @Override
