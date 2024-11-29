@@ -11,7 +11,7 @@ import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.screen.ScreenHandlerType;
 
-public class NeptuneScreenHandlers {
+public final class NeptuneScreenHandlers {
     public static final DeferredRegister<ScreenHandlerType<?>> REGISTRY = DeferredRegister.create(Neptune.MOD_ID, RegistryKeys.SCREEN_HANDLER);
 
     public static final RegistrySupplier<ScreenHandlerType<WeaponDeskScreenHandler>> WEAPON_DESK = REGISTRY.register("weapon_desk", () -> new ScreenHandlerType<>(WeaponDeskScreenHandler::new, FeatureSet.of(FeatureFlags.VANILLA)));

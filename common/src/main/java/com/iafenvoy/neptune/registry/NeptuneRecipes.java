@@ -7,7 +7,7 @@ import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.RegistryKeys;
 
-public class NeptuneRecipes {
+public final class NeptuneRecipes {
     public static final DeferredRegister<RecipeType<?>> TYPE_REGISTRY = DeferredRegister.create(Neptune.MOD_ID, RegistryKeys.RECIPE_TYPE);
     public static final DeferredRegister<RecipeSerializer<?>> SERIALIZER_REGISTRY = DeferredRegister.create(Neptune.MOD_ID, RegistryKeys.RECIPE_SERIALIZER);
 

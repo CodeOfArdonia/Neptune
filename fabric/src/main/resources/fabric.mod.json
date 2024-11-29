@@ -24,16 +24,8 @@
     "client": [
       "com.iafenvoy.neptune.fabric.NeptuneFabricClient"
     ],
-    "cardinal-components-entity": [
-      "com.iafenvoy.neptune.fabric.component.ModComponentEntry"
-    ],
     "emi": [
       "com.iafenvoy.neptune.compat.emi.WeaponDeskRecipePlugin"
-    ]
-  },
-  "custom": {
-    "cardinal-components": [
-      "neptune:player_data"
     ]
   },
   "mixins": [

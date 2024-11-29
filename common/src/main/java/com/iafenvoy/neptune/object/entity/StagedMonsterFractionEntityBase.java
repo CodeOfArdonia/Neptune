@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.world.World;
 
+@Deprecated(forRemoval = true)
 public class StagedMonsterFractionEntityBase extends StagedMonsterEntityBase implements FractionEntity {
     private final Fraction fraction;
 

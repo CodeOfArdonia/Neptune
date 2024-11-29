@@ -8,6 +8,7 @@ import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.world.World;
 
+@Deprecated(forRemoval = true)
 public class FractionEntityWithBossBar extends EntityWithBossBar implements FractionEntity {
     private final Fraction fraction;
 

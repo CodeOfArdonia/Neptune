@@ -2,13 +2,16 @@ package com.iafenvoy.neptune;
 
 import com.iafenvoy.neptune.network.ServerNetworkHelper;
 import com.iafenvoy.neptune.registry.*;
+import com.mojang.logging.LogUtils;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.CreativeTabRegistry;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
+import org.slf4j.Logger;
 
-public class Neptune {
+public final class Neptune {
     public static final String MOD_ID = "neptune";
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public static void init() {
         NeptuneBlocks.REGISTRY.register();

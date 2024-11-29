@@ -16,10 +16,8 @@ of `Architectury`
 
 4.A Weapon Desk which can craft tons of weapons. (Add recipe through datapack.)
 
-5.Fraction system
+5.Various color of item glint
 
-6.Various color of item glint
-
-7.Common back/belt item with `Trinkets` and `Curios`
+6.Common back/belt item with `Trinkets` and `Curios`
 
 And so on!

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
+@Deprecated(forRemoval = true)
 public record Fraction(Identifier id, Supplier<ItemStack> banner, Consumer2<PacketByteBuf, PlayerEntity> abilityHandler,
                        List<String> origins) {
     private static final List<Fraction> VALUES = new ArrayList<>();

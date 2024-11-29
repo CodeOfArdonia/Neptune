@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.world.World;
 
+@Deprecated(forRemoval = true)
 public class MonsterFractionEntityBase extends MonsterEntityBase implements FractionEntity {
     private final Fraction fraction;
 
