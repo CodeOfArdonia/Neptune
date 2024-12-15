@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
 
+@Deprecated(forRemoval = true)
 @Environment(EnvType.CLIENT)
 public class GlintLayerManager {
     private static final Map<GlintManager.GlintHolder, RenderLayer> LAYERS = new HashMap<>();

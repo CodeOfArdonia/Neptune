@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated(forRemoval = true)
 public class GlintManager {
     public static final String GLINT_KEY = "glint";
     public static final String GLINT_ALWAYS_KEY = "glint_always";
