@@ -13,12 +13,15 @@ public class ServerNetworkHelper {
             BlockPos pos = buf.readBlockPos();
             PlayerEntity player = context.getPlayer();
             context.queue(() -> {
-                BlockEntity entity = player.getWorld().getBlockEntity(pos);
-                NbtCompound compound = new NbtCompound();
-                if (entity != null) compound = entity.createNbt();
                 if (player instanceof ServerPlayerEntity serverPlayer)
-                    NetworkManager.sendToPlayer(serverPlayer, NetworkConstants.BLOCK_ENTITY_DATA_SYNC, PacketBufferUtils.create().writeBlockPos(pos).writeNbt(compound));
+                    sendBlockEntityData(serverPlayer, pos, player.getWorld().getBlockEntity(pos));
             });
         });
+    }
+
+    public static void sendBlockEntityData(ServerPlayerEntity serverPlayer, BlockPos pos, BlockEntity entity) {
+        NbtCompound compound = new NbtCompound();
+        if (entity != null) compound = entity.createNbt();
+        NetworkManager.sendToPlayer(serverPlayer, NetworkConstants.BLOCK_ENTITY_DATA_SYNC, PacketBufferUtils.create().writeBlockPos(pos).writeNbt(compound));
     }
 }
