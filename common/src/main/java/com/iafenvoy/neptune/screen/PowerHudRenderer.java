@@ -28,7 +28,7 @@ public class PowerHudRenderer {
 
         int i = 0;
         for (PowerCategory category : PowerCategory.values())
-            if (category.shouldDisplay()) {
+            if (category.shouldDisplay() && data.isEnabled(category)) {
                 renderOne(x + i * 20, y, context, data.get(category));
                 i++;
             }

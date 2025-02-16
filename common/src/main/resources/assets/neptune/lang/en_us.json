@@ -1,9 +1,10 @@
 {
+  "block.neptune.weapon_desk": "Weapon Desk",
   "category.neptune": "Neptune (Animation Fan Work Engine)",
-  "key.neptune.fraction_ability": "Fraction Ability",
   "command.neptune.fraction.success": "Success changed fraction to: ",
+  "emi.category.neptune.weapon_desk": "Weapon Desk",
   "fraction.neptune.none": "None",
   "gui.neptune.weapon_desk.title": "Weapon Desk",
-  "emi.category.neptune.weapon_desk": "Weapon Desk",
-  "block.neptune.weapon_desk": "Weapon Desk"
+  "key.neptune.fraction_ability": "Fraction Ability",
+  "power.neptune.minecraft.": "None"
 }

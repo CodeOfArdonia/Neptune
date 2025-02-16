@@ -137,6 +137,7 @@ public sealed abstract class AbstractPower<T extends AbstractPower<T>> permits D
     }
 
     public boolean apply(PowerData.SinglePowerData data) {
+        if (!data.allowEnable()) return false;
         boolean success = this.applyInternal(new PowerDataHolder(data));
         if (success) this.sendApplyMessage(data.getPlayer(), true);
         return success;

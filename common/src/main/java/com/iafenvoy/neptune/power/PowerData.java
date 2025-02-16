@@ -83,7 +83,10 @@ public class PowerData implements Serializable, Tickable {
     public void setEnabled(boolean enabled, PowerCategory... categories) {
         for (PowerCategory category : categories)
             if (enabled) this.enabled.add(category);
-            else this.enabled.remove(category);
+            else {
+                this.enabled.remove(category);
+                this.powerData.get(category).disable();
+            }
         this.markDirty();
     }
 
@@ -209,8 +212,12 @@ public class PowerData implements Serializable, Tickable {
             return this.type;
         }
 
+        public boolean allowEnable() {
+            return this.parent.enabled.contains(this.type);
+        }
+
         public boolean isEnabled() {
-            return this.enabled && this.parent.enabled.contains(this.type);
+            return this.allowEnable() && this.enabled;
         }
 
         public void setEnabled(boolean enabled) {
