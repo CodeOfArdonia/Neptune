@@ -41,7 +41,7 @@ public class PowerHudRenderer {
         };
         context.drawTextWithShadow(textRenderer, text, x + 2, y - 10, 0xFFFFFFFF);
         //Render Power Icon
-        if (binding.isPressed() || data.isEnabled()) context.drawTexture(WIDGETS_TEXTURE, x, y, 1, 23, 23, 23);
-        context.drawTexture(data.getActivePower().getIconTexture(), x + 3, y + 3, 0, 0, 16, 16, 16, 16);
+        if (binding.isPressed() || data.isEnabled()) context.drawTexture(WIDGETS_TEXTURE, x + 1, y + 1, 1, 23, 23, 23);
+        context.drawTexture(data.getActivePower().getIconTexture(), x + 4, y + 4, 0, 0, 16, 16, 16, 16);
     }
 }
