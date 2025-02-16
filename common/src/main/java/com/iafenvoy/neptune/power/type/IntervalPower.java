@@ -3,6 +3,7 @@ package com.iafenvoy.neptune.power.type;
 import com.iafenvoy.neptune.power.PowerCategory;
 import com.iafenvoy.neptune.power.PowerDataHolder;
 import com.iafenvoy.neptune.util.Timeout;
+import net.minecraft.util.Identifier;
 
 import java.util.function.ToIntFunction;
 
@@ -10,7 +11,7 @@ public final class IntervalPower extends AbstractPower<IntervalPower> {
     private ToIntFunction<PowerDataHolder> times = data -> 0;
     private ToIntFunction<PowerDataHolder> interval = data -> 0;
 
-    public IntervalPower(String id, PowerCategory category) {
+    public IntervalPower(Identifier id, PowerCategory category) {
         super(id, category);
     }
 

@@ -29,13 +29,14 @@ public class PowerData implements Serializable, Tickable {
 
     public PowerData(PlayerEntity player) {
         this.player = player;
+        for (PowerCategory category : PowerCategory.values())
+            this.createSingle(category);
     }
 
-    protected SinglePowerData createSingle(PowerData parent, PowerCategory type) {
-        SinglePowerData data = new SinglePowerData(parent, type);
+    protected void createSingle(PowerCategory type) {
+        SinglePowerData data = new SinglePowerData(this, type);
         this.components.put(type.getId(), data);
         this.powerData.put(type, data);
-        return data;
     }
 
     @Override

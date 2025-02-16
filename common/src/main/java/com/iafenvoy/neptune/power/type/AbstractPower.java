@@ -39,10 +39,6 @@ public sealed abstract class AbstractPower<T extends AbstractPower<T>> permits D
     protected Supplier<SoundEvent> applySound;
     private boolean experimental = false;
 
-    public AbstractPower(String id, PowerCategory category) {
-        this(Identifier.tryParse(id), category);
-    }
-
     public AbstractPower(Identifier id, PowerCategory category) {
         this.id = id;
         this.category = category;
@@ -63,7 +59,7 @@ public sealed abstract class AbstractPower<T extends AbstractPower<T>> permits D
 
     public Identifier getIconTexture() {
         if (this.isEmpty()) return Identifier.of(Identifier.DEFAULT_NAMESPACE, "textures/item/barrier.png");
-        return Identifier.of(Neptune.MOD_ID, "textures/power/" + this.id + ".png");
+        return Identifier.of(this.id.getNamespace(), "textures/power/" + this.id.getPath() + ".png");
     }
 
     public T onInit(Consumer<AbstractPower<?>> init) {

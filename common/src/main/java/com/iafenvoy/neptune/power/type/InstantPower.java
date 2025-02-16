@@ -2,9 +2,10 @@ package com.iafenvoy.neptune.power.type;
 
 import com.iafenvoy.neptune.power.PowerCategory;
 import com.iafenvoy.neptune.power.PowerDataHolder;
+import net.minecraft.util.Identifier;
 
 public final class InstantPower extends AbstractPower<InstantPower> {
-    public InstantPower(String id, PowerCategory category) {
+    public InstantPower(Identifier id, PowerCategory category) {
         super(id, category);
     }
 

@@ -1,6 +1,7 @@
 package com.iafenvoy.neptune;
 
 import com.iafenvoy.neptune.network.ServerNetworkHelper;
+import com.iafenvoy.neptune.power.PowerData;
 import com.iafenvoy.neptune.power.type.AbstractPower;
 import com.iafenvoy.neptune.registry.*;
 import com.mojang.logging.LogUtils;

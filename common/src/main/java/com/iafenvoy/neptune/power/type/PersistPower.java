@@ -4,6 +4,7 @@ import com.iafenvoy.neptune.power.PowerCategory;
 import com.iafenvoy.neptune.power.PowerData;
 import com.iafenvoy.neptune.power.PowerDataHolder;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
@@ -16,7 +17,7 @@ public final class PersistPower extends AbstractPower<PersistPower> {
     @Nullable
     private Supplier<SoundEvent> unapplySound;
 
-    public PersistPower(String id, PowerCategory category) {
+    public PersistPower(Identifier id, PowerCategory category) {
         super(id, category);
     }
 

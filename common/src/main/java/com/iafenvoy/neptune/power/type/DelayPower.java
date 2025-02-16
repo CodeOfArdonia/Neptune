@@ -3,11 +3,12 @@ package com.iafenvoy.neptune.power.type;
 import com.iafenvoy.neptune.power.PowerCategory;
 import com.iafenvoy.neptune.power.PowerDataHolder;
 import com.iafenvoy.neptune.util.Timeout;
+import net.minecraft.util.Identifier;
 
 public final class DelayPower extends AbstractPower<DelayPower> {
     private int delay = 0;
 
-    public DelayPower(String id, PowerCategory category) {
+    public DelayPower(Identifier id, PowerCategory category) {
         super(id, category);
     }
 
