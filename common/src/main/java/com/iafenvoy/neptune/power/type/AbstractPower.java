@@ -190,6 +190,10 @@ public sealed abstract class AbstractPower<T extends AbstractPower<T>> permits D
         return this.experimental;
     }
 
+    public static void initAll() {
+        POWERS.forEach(AbstractPower::init);
+    }
+
     protected enum PowerType {
         INSTANT, INTERVAL, PERSIST, DELAY, DUMMY
     }

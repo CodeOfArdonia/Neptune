@@ -19,7 +19,7 @@ public class PowerCategory {
     private final List<AbstractPower<?>> powers = new ArrayList<>();
     private final Map<Identifier, AbstractPower<?>> byId = new HashMap<>();
 
-    PowerCategory(Identifier id, Color4i color, BooleanSupplier shouldDisplay) {
+    public PowerCategory(Identifier id, Color4i color, BooleanSupplier shouldDisplay) {
         this.id = id;
         this.color = color;
         this.shouldDisplay = shouldDisplay;

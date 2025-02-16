@@ -9,21 +9,22 @@ import com.iafenvoy.neptune.util.Tickable;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.NbtString;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PowerData implements Serializable, Tickable {
     private final PlayerEntity player;
-    private boolean enabled = false;
     private final Map<Identifier, Serializable> components = new ConcurrentHashMap<>();
     private final Map<PowerCategory, SinglePowerData> powerData = new HashMap<>();
+    private final Set<PowerCategory> enabled = new HashSet<>();
     private boolean dirty = false;
 
     public PowerData(PlayerEntity player) {
@@ -39,14 +40,18 @@ public class PowerData implements Serializable, Tickable {
 
     @Override
     public void encode(NbtCompound nbt) {
-        nbt.putBoolean("enabled", this.enabled);
+        nbt.put("enabled", this.enabled.stream().reduce(new NbtList(), (p, c) -> {
+            p.add(NbtString.of(c.getId().toString()));
+            return p;
+        }, (a, b) -> a));
         for (Map.Entry<Identifier, Serializable> entry : this.components.entrySet())
             nbt.put(entry.getKey().toString(), entry.getValue().encode());
     }
 
     @Override
     public void decode(NbtCompound nbt) {
-        this.enabled = nbt.getBoolean("enabled");
+        this.enabled.clear();
+        this.enabled.addAll(nbt.getList("enabled", NbtElement.STRING_TYPE).stream().map(NbtElement::asString).map(Identifier::tryParse).map(PowerCategory::byId).filter(Optional::isPresent).map(Optional::get).toList());
         for (Map.Entry<Identifier, Serializable> entry : this.components.entrySet())
             if (nbt.contains(entry.getKey().toString(), NbtElement.COMPOUND_TYPE))
                 entry.getValue().decode(nbt.getCompound(entry.getKey().toString()));
@@ -70,21 +75,23 @@ public class PowerData implements Serializable, Tickable {
         this.dirty = true;
     }
 
-    public boolean isEnabled() {
-        return this.enabled;
+    public boolean isEnabled(PowerCategory... category) {
+        return Arrays.stream(category).allMatch(this.enabled::contains);
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void setEnabled(boolean enabled, PowerCategory... categories) {
+        for (PowerCategory category : categories)
+            if (enabled) this.enabled.add(category);
+            else this.enabled.remove(category);
         this.markDirty();
     }
 
-    public void enable() {
-        this.setEnabled(true);
+    public void enable(PowerCategory... categories) {
+        this.setEnabled(true, categories);
     }
 
-    public void disable() {
-        this.setEnabled(false);
+    public void disable(PowerCategory... categories) {
+        this.setEnabled(false, categories);
     }
 
     public SinglePowerData get(PowerCategory category) {
@@ -202,7 +209,7 @@ public class PowerData implements Serializable, Tickable {
         }
 
         public boolean isEnabled() {
-            return this.enabled && this.parent.enabled;
+            return this.enabled && this.parent.enabled.contains(this.type);
         }
 
         public void setEnabled(boolean enabled) {
