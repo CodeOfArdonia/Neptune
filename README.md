@@ -8,14 +8,11 @@ of `Architectury`
 
 ### What provided
 
-1.Simple event system & extra event hooks
-
-2.Some package for Item, Entity and so on. Also include some hooks.
-
-3.A lot of functional interfaces
-
-4.A Weapon Desk which can craft tons of weapons. (Add recipe through datapack.)
-
-5.Common back/belt item with `Trinkets` and `Curios`
+- Simple event system & extra event hooks
+- Some package for Item, Entity and so on. Also include some hooks.
+- A lot of functional interfaces
+- A Weapon Desk which can craft tons of weapons. (Add recipe through datapack.)
+- Common back/belt item with `Trinkets` and `Curios`
+- A power system
 
 And so on!

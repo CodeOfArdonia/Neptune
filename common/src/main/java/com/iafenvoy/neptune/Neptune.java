@@ -1,5 +1,6 @@
 package com.iafenvoy.neptune;
 
+import com.iafenvoy.neptune.network.ServerNetworkHelper;
 import com.iafenvoy.neptune.registry.*;
 import com.mojang.logging.LogUtils;
 import dev.architectury.platform.Platform;
@@ -25,6 +26,7 @@ public final class Neptune {
     }
 
     public static void process() {
+        ServerNetworkHelper.init();
         CreativeTabRegistry.appendBuiltin(Registries.ITEM_GROUP.get(ItemGroups.FUNCTIONAL), NeptuneBlocks.WEAPON_DESK.get());
     }
 }

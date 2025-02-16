@@ -1,6 +1,6 @@
 package com.iafenvoy.neptune.mixin;
 
-import com.iafenvoy.neptune.ServerHelper;
+import com.iafenvoy.neptune.Constants;
 import com.iafenvoy.neptune.util.Timeout;
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,7 +14,7 @@ import java.util.function.BooleanSupplier;
 public abstract class MinecraftServerMixin {
     @Inject(method = "<init>", at = @At("RETURN"))
     private void onServerCreated(CallbackInfo ci) {
-        ServerHelper.server = (MinecraftServer) (Object) this;
+        Constants.server = (MinecraftServer) (Object) this;
     }
 
     @Inject(method = "tick", at = @At("RETURN"))

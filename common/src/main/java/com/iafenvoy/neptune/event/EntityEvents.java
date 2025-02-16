@@ -5,14 +5,14 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 
 public class EntityEvents {
-    public static final Event<JoinWorld> ON_JOIN_WORLD = new Event<>(callbacks -> (entity, world) -> {
+    public static final Event<JoinWorld> ON_JOIN_WORLD = Event.of(callbacks -> (entity, world) -> {
         for (JoinWorld callback : callbacks)
             if (!callback.onJoinWorld(entity, world))
                 return true;
         return false;
     });
 
-    public static final Event<Tracking> START_TRACKING_TAIL = new Event<>(callbacks -> (entity, player) -> {
+    public static final Event<Tracking> START_TRACKING_TAIL = Event.of(callbacks -> (entity, player) -> {
         for (Tracking callback : callbacks)
             callback.onTrackingStart(entity, player);
     });

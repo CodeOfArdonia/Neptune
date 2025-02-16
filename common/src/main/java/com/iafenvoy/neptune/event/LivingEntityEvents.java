@@ -4,12 +4,12 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 
 public class LivingEntityEvents {
-    public static final Event<Fall> FALL = new Event<>(callbacks -> (entity, fallDistance, multiplier, source) -> {
+    public static final Event<Fall> FALL = Event.of(callbacks -> (entity, fallDistance, multiplier, source) -> {
         for (Fall e : callbacks)
             e.onFall(entity, fallDistance, multiplier, source);
     });
 
-    public static final Event<DamageCallback> DAMAGE = new Event<>(callbacks -> (entity, source, amount) -> {
+    public static final Event<DamageCallback> DAMAGE = Event.of(callbacks -> (entity, source, amount) -> {
         for (DamageCallback e : callbacks) {
             float newAmount = e.onLivingDamage(entity, source, amount);
             if (newAmount != amount)

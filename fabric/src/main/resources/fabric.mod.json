@@ -26,6 +26,14 @@
     ],
     "emi": [
       "com.iafenvoy.neptune.compat.emi.WeaponDeskRecipePlugin"
+    ],
+    "cardinal-components": [
+      "com.iafenvoy.neptune.fabric.component.ModComponentEntry"
+    ]
+  },
+  "custom": {
+    "cardinal-components": [
+      "neptune:power"
     ]
   },
   "mixins": [

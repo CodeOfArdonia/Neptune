@@ -14,6 +14,8 @@ dependencies {
     // Optional
     // EMI
     modImplementation "dev.emi:emi-fabric:${emi_version}"
+
+    modImplementation "com.github.apace100:origins-fabric:${project.origins_version}"
 }
 
 publishing {
