@@ -22,20 +22,17 @@ public class PowerHudRenderer {
         //Render Power Slot
         int width = context.getScaledWindowWidth();
         int height = context.getScaledWindowHeight();
-        int x = width / 2 + 125, y = height - 22;
-        context.drawTexture(WIDGETS_TEXTURE, x, y, 0, 0, 40, 22);
-        context.drawTexture(WIDGETS_TEXTURE, x + 40, y, 140, 0, 42, 22);
-
-        int i = 0;
+        int x = width / 2 + 120, y = height - 22, i = 0;
         for (PowerCategory category : PowerCategory.values())
             if (category.shouldDisplay() && data.isEnabled(category)) {
-                renderOne(x + i * 20, y, context, data.get(category));
+                renderOne(x + i * 21, y, context, data.get(category));
                 i++;
             }
     }
 
     private static void renderOne(int x, int y, DrawContext context, PowerData.SinglePowerData data) {
         PowerKeybindings.KeyBindingHolder binding = PowerKeybindings.get(data.getType());
+        context.drawTexture(WIDGETS_TEXTURE, x, y, 59, 22, 23, 23);
         //Render Cooldown
         String text = switch (data.getState()) {
             case ALLOW -> "§aR";
