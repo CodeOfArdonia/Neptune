@@ -22,9 +22,11 @@
     "AbstractClientPlayerEntityMixin",
     "ArmorFeatureRendererMixin",
     "BossBarHudMixin",
+    "BufferBuilderStorageMixin",
     "ClientWorldMixin",
     "HeadFeatureRendererMixin",
     "InGameHudMixin",
+    "ItemRendererMixin",
     "PlayerEntityRendererMixin",
     "SkullBlockEntityRendererMixin"
   ],
