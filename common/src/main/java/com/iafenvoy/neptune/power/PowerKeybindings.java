@@ -1,6 +1,6 @@
 package com.iafenvoy.neptune.power;
 
-import com.iafenvoy.neptune.Constants;
+import com.iafenvoy.neptune.NeptuneConstants;
 import com.iafenvoy.neptune.network.PacketBufferUtils;
 import dev.architectury.event.events.client.ClientTickEvent;
 import dev.architectury.networking.NetworkManager;
@@ -26,7 +26,7 @@ public class PowerKeybindings {
             if (press) {
                 PacketByteBuf buf = PacketBufferUtils.create();
                 buf.writeIdentifier(category.getId());
-                NetworkManager.sendToServer(Constants.POWER_KEYBINDING_SYNC, buf);
+                NetworkManager.sendToServer(NeptuneConstants.POWER_KEYBINDING_SYNC, buf);
             }
         });
         KEY_BINDINGS.put(category, holder);

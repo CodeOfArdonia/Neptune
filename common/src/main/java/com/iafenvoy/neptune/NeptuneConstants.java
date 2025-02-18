@@ -4,7 +4,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
-public final class Constants {
+public final class NeptuneConstants {
     @Nullable
     public static MinecraftServer server = null;
     public static final Identifier POWER_KEYBINDING_SYNC = Identifier.of(Neptune.MOD_ID, "keybinding_sync");

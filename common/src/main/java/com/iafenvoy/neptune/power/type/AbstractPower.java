@@ -1,6 +1,6 @@
 package com.iafenvoy.neptune.power.type;
 
-import com.iafenvoy.neptune.Constants;
+import com.iafenvoy.neptune.NeptuneConstants;
 import com.iafenvoy.neptune.Neptune;
 import com.iafenvoy.neptune.network.PacketBufferUtils;
 import com.iafenvoy.neptune.object.SoundUtil;
@@ -151,7 +151,7 @@ public sealed abstract class AbstractPower<T extends AbstractPower<T>> permits D
         if (player instanceof ServerPlayerEntity serverPlayer) {
             PacketByteBuf buf = PacketBufferUtils.create();
             buf.writeUuid(player.getUuid()).writeIdentifier(this.id).writeBoolean(enable);
-            NetworkManager.sendToPlayer(serverPlayer, Constants.POWER_STATE_CHANGE, buf);
+            NetworkManager.sendToPlayer(serverPlayer, NeptuneConstants.POWER_STATE_CHANGE, buf);
         }
     }
 
