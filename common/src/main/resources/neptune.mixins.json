@@ -23,6 +23,7 @@
     "ArmorFeatureRendererMixin",
     "BossBarHudMixin",
     "BufferBuilderStorageMixin",
+    "BuiltinModelItemRendererMixin",
     "ClientWorldMixin",
     "HeadFeatureRendererMixin",
     "InGameHudMixin",
