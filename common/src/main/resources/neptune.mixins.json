@@ -13,6 +13,7 @@
     "MinecraftServerMixin",
     "MobEntityAccessor",
     "PlayerEntityMixin",
+    "PlayerInventoryMixin",
     "PlayerManagerMixin",
     "ServerEntityManagerMixin",
     "integration.ModPacketsC2SMixin"

@@ -8,7 +8,6 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.List;
 
-@Deprecated
 public abstract class ArmorWithTickItem extends ArmorItem {
     private static final List<ArmorWithTickItem> NEED_TO_TICK = new ArrayList<>();
 
