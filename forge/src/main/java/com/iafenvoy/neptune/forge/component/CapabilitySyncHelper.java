@@ -21,6 +21,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.function.Function;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CapabilitySyncHelper {
+    @ApiStatus.Internal
     public static final Identifier CAPABILITY_SYNC = new Identifier(Neptune.MOD_ID, "capability_sync");
     private static final List<CapabilityHolder<? extends ICapabilityProvider, ? extends ITickableCapability>> HOLDERS = new ArrayList<>();
 
@@ -40,6 +42,7 @@ public class CapabilitySyncHelper {
         HOLDERS.add(new CapabilityHolder<>(id, capability, constructor, copyPolicy));
     }
 
+    @ApiStatus.Internal
     @SubscribeEvent
     public static void attachCapability(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof PlayerEntity player)
@@ -48,6 +51,7 @@ public class CapabilitySyncHelper {
                     event.addCapability(holder.id, holder.constructor.apply(player));
     }
 
+    @ApiStatus.Internal
     @SubscribeEvent
     public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getEntity() instanceof ServerPlayerEntity serverPlayer)
@@ -55,6 +59,7 @@ public class CapabilitySyncHelper {
                 serverPlayer.getCapability(holder.capability).resolve().ifPresent(storage -> NetworkManager.sendToPlayer(serverPlayer, CAPABILITY_SYNC, PacketBufferUtils.create().writeIdentifier(holder.id).writeNbt(storage.serializeNBT())));
     }
 
+    @ApiStatus.Internal
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         PlayerEntity player = event.player;
@@ -68,6 +73,7 @@ public class CapabilitySyncHelper {
         }
     }
 
+    @ApiStatus.Internal
     @SubscribeEvent
     public static void onPlayerClone(PlayerEvent.Clone event) {
         PlayerEntity origin = event.getOriginal(), player = event.getEntity();
@@ -80,8 +86,10 @@ public class CapabilitySyncHelper {
         }
     }
 
+    @ApiStatus.Internal
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientEvents {
+        @ApiStatus.Internal
         @SubscribeEvent
         public static void init(FMLClientSetupEvent event) {
             NetworkManager.registerReceiver(NetworkManager.Side.S2C, CAPABILITY_SYNC, (buf, context) -> {
@@ -96,12 +104,14 @@ public class CapabilitySyncHelper {
         }
     }
 
+    @ApiStatus.Internal
     public static class CapabilityHolder<P extends ICapabilityProvider, S extends ITickableCapability> {
         private final Identifier id;
         private final Capability<S> capability;
         private final Function<PlayerEntity, P> constructor;
         private final CopyPolicy copyPolicy;
 
+        @ApiStatus.Internal
         public CapabilityHolder(Identifier id, Capability<S> capability, Function<PlayerEntity, P> constructor, CopyPolicy copyPolicy) {
             this.id = id;
             this.capability = capability;
