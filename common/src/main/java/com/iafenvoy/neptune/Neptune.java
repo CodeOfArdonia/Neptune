@@ -4,7 +4,6 @@ import com.iafenvoy.neptune.network.ServerNetworkHelper;
 import com.iafenvoy.neptune.power.type.AbstractPower;
 import com.iafenvoy.neptune.registry.*;
 import com.mojang.logging.LogUtils;
-import dev.architectury.platform.Platform;
 import dev.architectury.registry.CreativeTabRegistry;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
@@ -21,9 +20,6 @@ public final class Neptune {
         NeptuneScreenHandlers.REGISTRY.register();
         NeptuneRecipes.TYPE_REGISTRY.register();
         NeptuneRecipes.SERIALIZER_REGISTRY.register();
-
-        if (!Platform.isModLoaded("sponsor_core"))
-            throw new RuntimeException("Cannot find Sponsor Core, please re-download " + MOD_ID + " or contact author.");
     }
 
     public static void process() {

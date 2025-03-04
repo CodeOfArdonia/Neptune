@@ -59,9 +59,6 @@ allprojects {
                 includeGroup "com.jamieswhiteshirt"
             }
         }
-        flatDir {
-            dir "./flatDir"
-        }
     }
 
     tasks.withType(JavaCompile) {
