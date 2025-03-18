@@ -54,6 +54,10 @@ public class AbilityCategory {
         return RandomHelper.randomOne(this.abilities);
     }
 
+    public List<AbstractAbility<?>> getAbilities() {
+        return this.abilities;
+    }
+
     public Stream<Identifier> streamAbilityIds() {
         return this.abilities.stream().map(AbstractAbility::getId);
     }

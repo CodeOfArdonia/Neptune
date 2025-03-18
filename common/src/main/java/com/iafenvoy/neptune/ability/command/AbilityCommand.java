@@ -25,7 +25,7 @@ public final class AbilityCommand {
     public static final SimpleCommandExceptionType UNKNOWN_ABILITY = new SimpleCommandExceptionType(Text.translatable("argument.neptune.ability.unknown_ability"));
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        dispatcher.register(literal("power")
+        dispatcher.register(literal("ability")
                 .then(argument("targets", EntityArgumentType.players())
                         .then(literal("enable")
                                 .then(argument("category", IdentifierArgumentType.identifier())
@@ -37,14 +37,20 @@ public final class AbilityCommand {
                                         .suggests(AbilitySuggestions.ABILITY_CATEGORY)
                                         .executes(ctx -> modifyCategory(ctx, false))
                                 ))
-                        .then(argument("category", IdentifierArgumentType.identifier())
-                                .suggests(AbilitySuggestions.ABILITY_CATEGORY)
-                                .then(argument("ability", IdentifierArgumentType.identifier())
-                                        .suggests(AbilitySuggestions.ABILITY_TYPE)
-                                        .then(literal("grant").executes(ctx -> modifyAbility(ctx, true)))
-                                        .then(literal("revoke").executes(ctx -> modifyAbility(ctx, false)))
-                                )
-                        )
+                        .then(literal("grant")
+                                .then(argument("category", IdentifierArgumentType.identifier())
+                                        .suggests(AbilitySuggestions.ABILITY_CATEGORY)
+                                        .then(argument("ability", IdentifierArgumentType.identifier())
+                                                .suggests(AbilitySuggestions.ABILITY_TYPE)
+                                                .executes(ctx -> modifyAbility(ctx, true))
+                                        )))
+                        .then(literal("revoke")
+                                .then(argument("category", IdentifierArgumentType.identifier())
+                                        .suggests(AbilitySuggestions.ABILITY_CATEGORY)
+                                        .then(argument("ability", IdentifierArgumentType.identifier())
+                                                .suggests(AbilitySuggestions.ABILITY_TYPE)
+                                                .executes(ctx -> modifyAbility(ctx, false))
+                                        )))
                 )
         );
     }
