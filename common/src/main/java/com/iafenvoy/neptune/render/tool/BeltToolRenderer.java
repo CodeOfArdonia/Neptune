@@ -43,7 +43,7 @@ public class BeltToolRenderer extends HeldItemFeatureRenderer<AbstractClientPlay
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-90.0F));
         matrices.scale(1.5f, 1.5f, 1.5f);
         BackBeltToolManager.BeltHolder holder = BackBeltToolManager.getBelt(stack.getItem());
-        if (holder != null) holder.transformer().accept(matrices,left);
+        if (holder != null) holder.transformer().accept(matrices, left);
         this.heldItemRenderer.renderItem(entity, stack, ModelTransformationMode.GROUND, left, matrices, provider, i);
         matrices.pop();
     }

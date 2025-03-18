@@ -1,9 +1,9 @@
 package com.iafenvoy.neptune.ability;
 
-import com.iafenvoy.neptune.impl.ComponentManager;
 import com.iafenvoy.neptune.ability.type.AbstractAbility;
 import com.iafenvoy.neptune.ability.type.DummyAbility;
 import com.iafenvoy.neptune.ability.type.PersistAbility;
+import com.iafenvoy.neptune.impl.ComponentManager;
 import com.iafenvoy.neptune.util.Serializable;
 import com.iafenvoy.neptune.util.Tickable;
 import net.minecraft.entity.player.PlayerEntity;

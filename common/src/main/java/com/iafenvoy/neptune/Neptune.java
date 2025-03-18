@@ -1,7 +1,7 @@
 package com.iafenvoy.neptune;
 
-import com.iafenvoy.neptune.network.ServerNetworkHelper;
 import com.iafenvoy.neptune.ability.type.AbstractAbility;
+import com.iafenvoy.neptune.network.ServerNetworkHelper;
 import com.iafenvoy.neptune.registry.*;
 import com.mojang.logging.LogUtils;
 import dev.architectury.registry.CreativeTabRegistry;

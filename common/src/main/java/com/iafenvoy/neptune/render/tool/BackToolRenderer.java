@@ -43,17 +43,17 @@ public class BackToolRenderer extends HeldItemFeatureRenderer<AbstractClientPlay
         matrices.push();
         IArmorRenderHelper.translateToChest(matrices, this.getContextModel(), entity);
         matrices.translate(0, 0, 0.3);
-        if (stack.isIn(NeptuneTags.RENDER_BIG_WEAPON)) matrices.translate(0,0.3,0);
+        if (stack.isIn(NeptuneTags.RENDER_BIG_WEAPON)) matrices.translate(0, 0.3, 0);
         if (!entity.getEquippedStack(EquipmentSlot.CHEST).isEmpty()) matrices.translate(0, 0, 0.05);
         if (left) matrices.translate(0, 0, 0.05);
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(90));
         if (left) matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180));
         matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(145));
-        if (stack.isIn(NeptuneTags.RENDER_REVERSE_WEAPON)){
+        if (stack.isIn(NeptuneTags.RENDER_REVERSE_WEAPON)) {
             matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180));
             matrices.translate(0, -0.4, -0.4);
         }
-        matrices.translate(0,-0.2,0.1);
+        matrices.translate(0, -0.2, 0.1);
         BackBeltToolManager.BackHolder holder = BackBeltToolManager.getBack(stack.getItem());
         if (holder != null) holder.transformer().accept(matrices, left);
         this.heldItemRenderer.renderItem(entity, stack, ModelTransformationMode.THIRD_PERSON_LEFT_HAND, false, matrices, provider, i);

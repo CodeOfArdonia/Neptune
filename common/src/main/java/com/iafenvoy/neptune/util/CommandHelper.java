@@ -2,6 +2,7 @@ package com.iafenvoy.neptune.util;
 
 import net.minecraft.entity.Entity;
 
+@Deprecated(forRemoval = true)
 public class CommandHelper {
     public static void execute(Entity entity, String command) {
         execute(entity, command, 4);

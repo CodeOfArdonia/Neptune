@@ -58,7 +58,12 @@ public record WeaponDeskRecipe(Identifier id, Ingredient material, int materialC
     }
 
     public enum Type implements RecipeType<WeaponDeskRecipe> {
-        INSTANCE
+        INSTANCE;
+
+        @Override
+        public String toString() {
+            return ID.toString();
+        }
     }
 
     public enum Serializer implements RecipeSerializer<WeaponDeskRecipe> {

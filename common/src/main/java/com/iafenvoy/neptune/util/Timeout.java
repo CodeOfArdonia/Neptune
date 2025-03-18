@@ -5,7 +5,7 @@ import net.minecraft.server.MinecraftServer;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Timeout {
-    private static final CopyOnWriteArrayList<Timeout> timeouts = new CopyOnWriteArrayList<>();
+    private static final CopyOnWriteArrayList<Timeout> TIMEOUTS = new CopyOnWriteArrayList<>();
     private final int waitTicks;
     private final int maxTimes;
     private final Runnable callback, finalize;
@@ -31,12 +31,12 @@ public class Timeout {
 
     public static void create(int waitTicks, int maxTimes, Runnable callback, Runnable finalize) {
         if (maxTimes <= 0) return;
-        timeouts.add(new Timeout(waitTicks, maxTimes, callback, finalize));
+        TIMEOUTS.add(new Timeout(waitTicks, maxTimes, callback, finalize));
     }
 
     public static void runTimeout(MinecraftServer server) {
-        timeouts.forEach(x -> x.tick(server));
-        timeouts.removeAll(timeouts.stream().filter(timeout -> timeout.shouldRemove).toList());
+        TIMEOUTS.forEach(x -> x.tick(server));
+        TIMEOUTS.removeAll(TIMEOUTS.stream().filter(timeout -> timeout.shouldRemove).toList());
     }
 
     public void tick(MinecraftServer server) {

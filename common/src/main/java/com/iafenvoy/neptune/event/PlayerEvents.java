@@ -8,9 +8,6 @@ public class PlayerEvents {
             e.handleConnection(player);
     });
 
-    /**
-     * Use this interface to handle players logging in and out.
-     */
     @FunctionalInterface
     public interface PlayerLoggedInOrOut {
         void handleConnection(PlayerEntity player);

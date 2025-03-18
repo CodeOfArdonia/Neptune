@@ -1,12 +1,12 @@
 package com.iafenvoy.neptune.ability.type;
 
-import com.iafenvoy.neptune.NeptuneConstants;
 import com.iafenvoy.neptune.Neptune;
-import com.iafenvoy.neptune.network.PacketBufferUtils;
-import com.iafenvoy.neptune.object.SoundUtil;
+import com.iafenvoy.neptune.NeptuneConstants;
 import com.iafenvoy.neptune.ability.AbilityCategory;
 import com.iafenvoy.neptune.ability.AbilityData;
 import com.iafenvoy.neptune.ability.AbilityDataHolder;
+import com.iafenvoy.neptune.network.PacketBufferUtils;
+import com.iafenvoy.neptune.object.SoundUtil;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
