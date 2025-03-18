@@ -1,8 +1,8 @@
 package com.iafenvoy.neptune.network;
 
 import com.iafenvoy.neptune.NeptuneConstants;
-import com.iafenvoy.neptune.power.PowerCategory;
-import com.iafenvoy.neptune.power.PowerData;
+import com.iafenvoy.neptune.ability.AbilityCategory;
+import com.iafenvoy.neptune.ability.AbilityData;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -10,11 +10,11 @@ import java.util.Optional;
 
 public class ServerNetworkHelper {
     public static void init() {
-        NetworkManager.registerReceiver(NetworkManager.Side.C2S, NeptuneConstants.POWER_KEYBINDING_SYNC, (buf, context) -> {
+        NetworkManager.registerReceiver(NetworkManager.Side.C2S, NeptuneConstants.ABILITY_KEYBINDING_SYNC, (buf, context) -> {
             PlayerEntity player = context.getPlayer();
-            Optional<PowerCategory> type = PowerCategory.byId(buf.readIdentifier());
+            Optional<AbilityCategory> type = AbilityCategory.byId(buf.readIdentifier());
             if (type.isEmpty()) return;
-            PowerData data = PowerData.byPlayer(player);
+            AbilityData data = AbilityData.byPlayer(player);
             if (!player.isSpectator() && data.isEnabled())
                 context.queue(() -> data.get(type.get()).keyPress());
         });

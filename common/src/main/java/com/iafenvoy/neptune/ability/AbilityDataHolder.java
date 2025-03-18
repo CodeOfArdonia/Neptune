@@ -1,20 +1,20 @@
-package com.iafenvoy.neptune.power;
+package com.iafenvoy.neptune.ability;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.SwordItem;
 import net.minecraft.world.World;
 
-public class PowerDataHolder {
+public class AbilityDataHolder {
     public static final float DAMAGE_MUL = 1.5f;
-    private final PowerData.SinglePowerData data;
+    private final AbilityData.SingleAbilityData data;
     private boolean cancelled = false;
 
-    public PowerDataHolder(PowerData.SinglePowerData data) {
+    public AbilityDataHolder(AbilityData.SingleAbilityData data) {
         this.data = data;
     }
 
-    public PowerData.SinglePowerData getData() {
+    public AbilityData.SingleAbilityData getData() {
         return this.data;
     }
 

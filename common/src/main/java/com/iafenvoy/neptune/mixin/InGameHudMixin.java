@@ -1,6 +1,6 @@
 package com.iafenvoy.neptune.mixin;
 
-import com.iafenvoy.neptune.screen.PowerHudRenderer;
+import com.iafenvoy.neptune.screen.AbilityHudRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -22,6 +22,6 @@ public class InGameHudMixin {
 
     @Inject(method = "render", at = @At("RETURN"))
     private void renderPowerHud(DrawContext context, float tickDelta, CallbackInfo ci) {
-        PowerHudRenderer.render(this.client, context);
+        AbilityHudRenderer.render(this.client, context);
     }
 }

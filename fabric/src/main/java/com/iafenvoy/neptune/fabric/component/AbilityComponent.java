@@ -1,7 +1,7 @@
 package com.iafenvoy.neptune.fabric.component;
 
 import com.iafenvoy.neptune.Neptune;
-import com.iafenvoy.neptune.power.PowerData;
+import com.iafenvoy.neptune.ability.AbilityData;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.onyxstudios.cca.api.v3.component.ComponentRegistryV3;
 import dev.onyxstudios.cca.api.v3.component.ComponentV3;
@@ -14,22 +14,22 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class PowerComponent implements ComponentV3, AutoSyncedComponent, CommonTickingComponent {
-    public static final ComponentKey<PowerComponent> COMPONENT = ComponentRegistryV3.INSTANCE.getOrCreate(Objects.requireNonNull(Identifier.of(Neptune.MOD_ID, "power")), PowerComponent.class);
+public class AbilityComponent implements ComponentV3, AutoSyncedComponent, CommonTickingComponent {
+    public static final ComponentKey<AbilityComponent> COMPONENT = ComponentRegistryV3.INSTANCE.getOrCreate(Objects.requireNonNull(Identifier.of(Neptune.MOD_ID, "ability")), AbilityComponent.class);
 
     private final PlayerEntity entity;
-    private final PowerData data;
+    private final AbilityData data;
 
-    public PowerComponent(PlayerEntity entity) {
+    public AbilityComponent(PlayerEntity entity) {
         this.entity = entity;
-        this.data = new PowerData(entity);
+        this.data = new AbilityData(entity);
     }
 
     public PlayerEntity getEntity() {
         return this.entity;
     }
 
-    public PowerData getData() {
+    public AbilityData getData() {
         return this.data;
     }
 

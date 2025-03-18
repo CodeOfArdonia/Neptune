@@ -1,4 +1,4 @@
-package com.iafenvoy.neptune.power;
+package com.iafenvoy.neptune.ability;
 
 import com.iafenvoy.neptune.NeptuneConstants;
 import com.iafenvoy.neptune.network.PacketBufferUtils;
@@ -17,22 +17,22 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 @Environment(EnvType.CLIENT)
-public class PowerKeybindings {
-    private static final Map<PowerCategory, KeyBindingHolder> KEY_BINDINGS = new HashMap<>();
+public class AbilityKeybindings {
+    private static final Map<AbilityCategory, KeyBindingHolder> KEY_BINDINGS = new HashMap<>();
 
-    public static void registerKeyBinding(PowerCategory category, KeyBinding keyBinding) {
+    public static void registerKeyBinding(AbilityCategory category, KeyBinding keyBinding) {
         KeyBindingHolder holder = new KeyBindingHolder(keyBinding);
         holder.registerPressCallback(press -> {
             if (press) {
                 PacketByteBuf buf = PacketBufferUtils.create();
                 buf.writeIdentifier(category.getId());
-                NetworkManager.sendToServer(NeptuneConstants.POWER_KEYBINDING_SYNC, buf);
+                NetworkManager.sendToServer(NeptuneConstants.ABILITY_KEYBINDING_SYNC, buf);
             }
         });
         KEY_BINDINGS.put(category, holder);
     }
 
-    public static KeyBindingHolder get(PowerCategory category) {
+    public static KeyBindingHolder get(AbilityCategory category) {
         return KEY_BINDINGS.get(category);
     }
 

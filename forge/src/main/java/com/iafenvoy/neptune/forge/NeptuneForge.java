@@ -2,9 +2,9 @@ package com.iafenvoy.neptune.forge;
 
 import com.iafenvoy.neptune.Neptune;
 import com.iafenvoy.neptune.NeptuneClient;
+import com.iafenvoy.neptune.forge.component.AbilityDataProvider;
 import com.iafenvoy.neptune.forge.component.CapabilitySyncHelper;
-import com.iafenvoy.neptune.forge.component.PowerDataProvider;
-import com.iafenvoy.neptune.screen.PowerHudRenderer;
+import com.iafenvoy.neptune.screen.AbilityHudRenderer;
 import dev.architectury.platform.Platform;
 import dev.architectury.platform.forge.EventBuses;
 import net.minecraft.client.MinecraftClient;
@@ -23,7 +23,7 @@ public class NeptuneForge {
     public NeptuneForge() {
         EventBuses.registerModEventBus(Neptune.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
         Neptune.init();
-        CapabilitySyncHelper.register(Identifier.of(Neptune.MOD_ID, "power"), PowerDataProvider.CAPABILITY, PowerDataProvider::new);
+        CapabilitySyncHelper.register(Identifier.of(Neptune.MOD_ID, "ability"), AbilityDataProvider.CAPABILITY, AbilityDataProvider::new);
         if (Platform.getEnv() == Dist.CLIENT)
             NeptuneClient.init();
     }
@@ -43,8 +43,8 @@ public class NeptuneForge {
         @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
         public static class ForgeEvents {
             @SubscribeEvent
-            public static void renderPowerHud(RenderGuiEvent.Post event) {
-                PowerHudRenderer.render(MinecraftClient.getInstance(), event.getGuiGraphics());
+            public static void renderAbilityHud(RenderGuiEvent.Post event) {
+                AbilityHudRenderer.render(MinecraftClient.getInstance(), event.getGuiGraphics());
             }
         }
     }

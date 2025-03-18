@@ -11,14 +11,14 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class PowerDataProvider implements ICapabilitySerializable<NbtCompound> {
-    public static final Capability<PowerDataStorage> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
+public class AbilityDataProvider implements ICapabilitySerializable<NbtCompound> {
+    public static final Capability<AbilityDataStorage> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
     });
-    private PowerDataStorage storage;
-    private final LazyOptional<PowerDataStorage> storageLazyOptional = LazyOptional.of(this::getOrCreateStorage);
+    private AbilityDataStorage storage;
+    private final LazyOptional<AbilityDataStorage> storageLazyOptional = LazyOptional.of(this::getOrCreateStorage);
     private final PlayerEntity player;
 
-    public PowerDataProvider(PlayerEntity player) {
+    public AbilityDataProvider(PlayerEntity player) {
         this.player = player;
     }
 
@@ -37,9 +37,9 @@ public class PowerDataProvider implements ICapabilitySerializable<NbtCompound> {
         this.getOrCreateStorage().deserializeNBT(arg);
     }
 
-    private PowerDataStorage getOrCreateStorage() {
+    private AbilityDataStorage getOrCreateStorage() {
         if (this.storage == null)
-            this.storage = new PowerDataStorage(this.player);
+            this.storage = new AbilityDataStorage(this.player);
         return this.storage;
     }
 }

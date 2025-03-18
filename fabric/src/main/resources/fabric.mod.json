@@ -33,7 +33,7 @@
   },
   "custom": {
     "cardinal-components": [
-      "neptune:power"
+      "neptune:ability"
     ]
   },
   "mixins": [

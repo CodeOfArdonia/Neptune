@@ -1,9 +1,9 @@
-package com.iafenvoy.neptune.power;
+package com.iafenvoy.neptune.ability;
 
 import com.iafenvoy.neptune.impl.ComponentManager;
-import com.iafenvoy.neptune.power.type.AbstractPower;
-import com.iafenvoy.neptune.power.type.DummyPower;
-import com.iafenvoy.neptune.power.type.PersistPower;
+import com.iafenvoy.neptune.ability.type.AbstractAbility;
+import com.iafenvoy.neptune.ability.type.DummyAbility;
+import com.iafenvoy.neptune.ability.type.PersistAbility;
 import com.iafenvoy.neptune.util.Serializable;
 import com.iafenvoy.neptune.util.Tickable;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,23 +20,23 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class PowerData implements Serializable, Tickable {
+public class AbilityData implements Serializable, Tickable {
     private final PlayerEntity player;
     private final Map<Identifier, Serializable> components = new ConcurrentHashMap<>();
-    private final Map<PowerCategory, SinglePowerData> powerData = new HashMap<>();
-    private final Set<PowerCategory> enabled = new HashSet<>();
+    private final Map<AbilityCategory, SingleAbilityData> abilityData = new HashMap<>();
+    private final Set<AbilityCategory> enabled = new HashSet<>();
     private boolean dirty = false;
 
-    public PowerData(PlayerEntity player) {
+    public AbilityData(PlayerEntity player) {
         this.player = player;
-        for (PowerCategory category : PowerCategory.values())
+        for (AbilityCategory category : AbilityCategory.values())
             this.createSingle(category);
     }
 
-    protected void createSingle(PowerCategory type) {
-        SinglePowerData data = new SinglePowerData(this, type);
+    protected void createSingle(AbilityCategory type) {
+        SingleAbilityData data = new SingleAbilityData(this, type);
         this.components.put(type.getId(), data);
-        this.powerData.put(type, data);
+        this.abilityData.put(type, data);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class PowerData implements Serializable, Tickable {
     @Override
     public void decode(NbtCompound nbt) {
         this.enabled.clear();
-        this.enabled.addAll(nbt.getList("enabled", NbtElement.STRING_TYPE).stream().map(NbtElement::asString).map(Identifier::tryParse).map(PowerCategory::byId).filter(Optional::isPresent).map(Optional::get).toList());
+        this.enabled.addAll(nbt.getList("enabled", NbtElement.STRING_TYPE).stream().map(NbtElement::asString).map(Identifier::tryParse).map(AbilityCategory::byId).filter(Optional::isPresent).map(Optional::get).toList());
         for (Map.Entry<Identifier, Serializable> entry : this.components.entrySet())
             if (nbt.contains(entry.getKey().toString(), NbtElement.COMPOUND_TYPE))
                 entry.getValue().decode(nbt.getCompound(entry.getKey().toString()));
@@ -76,30 +76,30 @@ public class PowerData implements Serializable, Tickable {
         this.dirty = true;
     }
 
-    public boolean isEnabled(PowerCategory... category) {
+    public boolean isEnabled(AbilityCategory... category) {
         return Arrays.stream(category).allMatch(this.enabled::contains);
     }
 
-    public void setEnabled(boolean enabled, PowerCategory... categories) {
-        for (PowerCategory category : categories)
+    public void setEnabled(boolean enabled, AbilityCategory... categories) {
+        for (AbilityCategory category : categories)
             if (enabled) this.enabled.add(category);
             else {
                 this.enabled.remove(category);
-                this.powerData.get(category).disable();
+                this.abilityData.get(category).disable();
             }
         this.markDirty();
     }
 
-    public void enable(PowerCategory... categories) {
+    public void enable(AbilityCategory... categories) {
         this.setEnabled(true, categories);
     }
 
-    public void disable(PowerCategory... categories) {
+    public void disable(AbilityCategory... categories) {
         this.setEnabled(false, categories);
     }
 
-    public SinglePowerData get(PowerCategory category) {
-        return this.powerData.get(category);
+    public SingleAbilityData get(AbilityCategory category) {
+        return this.abilityData.get(category);
     }
 
     public void addComponent(Identifier id, Serializable serializable) {
@@ -114,43 +114,43 @@ public class PowerData implements Serializable, Tickable {
         this.components.remove(id);
     }
 
-    public boolean powerEnabled(AbstractPower<?>... powers) {
-        for (AbstractPower<?> power : powers)
-            if (this.powerEnabled(power.getCategory(), power))
+    public boolean abilityEnabled(AbstractAbility<?>... abilities) {
+        for (AbstractAbility<?> ability : abilities)
+            if (this.abilityEnabled(ability.getCategory(), ability))
                 return true;
         return false;
     }
 
-    public boolean powerEnabled(PowerCategory category, AbstractPower<?> power) {
-        SinglePowerData data = this.get(category);
-        return data.hasPower() && data.getActivePower() == power && data.isEnabled();
+    public boolean abilityEnabled(AbilityCategory category, AbstractAbility<?> ability) {
+        SingleAbilityData data = this.get(category);
+        return data.hasAbility() && data.getActiveAbility() == ability && data.isEnabled();
     }
 
-    public void disableAllPower() {
-        this.powerData.values().forEach(SinglePowerData::disable);
+    public void disableAllAbility() {
+        this.abilityData.values().forEach(SingleAbilityData::disable);
     }
 
-    public static PowerData byPlayer(@Nullable PlayerEntity player) {
-        if (player == null) return new PowerData(null);
-        return ComponentManager.getPowerData(player);
+    public static AbilityData byPlayer(@Nullable PlayerEntity player) {
+        if (player == null) return new AbilityData(null);
+        return ComponentManager.getAbilityData(player);
     }
 
     public static void stop(MinecraftServer server) {
         for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
-            PowerData data = byPlayer(player);
-            data.disableAllPower();
+            AbilityData data = byPlayer(player);
+            data.disableAllAbility();
         }
     }
 
-    public static class SinglePowerData implements Serializable, Tickable {
-        private final PowerData parent;
-        private final PowerCategory type;
-        private AbstractPower<?> activePower = DummyPower.EMPTY;
+    public static class SingleAbilityData implements Serializable, Tickable {
+        private final AbilityData parent;
+        private final AbilityCategory type;
+        private AbstractAbility<?> activeAbility = DummyAbility.EMPTY;
         private boolean enabled = false;
         private int primaryCooldown = 0;
         private int secondaryCooldown = 0;
 
-        public SinglePowerData(PowerData parent, PowerCategory type) {
+        public SingleAbilityData(AbilityData parent, AbilityCategory type) {
             this.parent = parent;
             this.type = type;
         }
@@ -160,7 +160,7 @@ public class PowerData implements Serializable, Tickable {
             nbt.putBoolean("enabled", this.enabled);
             nbt.putInt("primaryCooldown", this.primaryCooldown);
             nbt.putInt("secondaryCooldown", this.secondaryCooldown);
-            nbt.putString("activePower", this.activePower.getId().toString());
+            nbt.putString("activeAbility", this.activeAbility.getId().toString());
         }
 
         @Override
@@ -168,7 +168,7 @@ public class PowerData implements Serializable, Tickable {
             this.enabled = nbt.getBoolean("enabled");
             this.primaryCooldown = nbt.getInt("primaryCooldown");
             this.secondaryCooldown = nbt.getInt("secondaryCooldown");
-            this.activePower = AbstractPower.byId(Identifier.tryParse(nbt.getString("activePower")));
+            this.activeAbility = AbstractAbility.byId(Identifier.tryParse(nbt.getString("activeAbility")));
         }
 
         @Override
@@ -181,34 +181,34 @@ public class PowerData implements Serializable, Tickable {
                 this.secondaryCooldown--;
                 this.parent.markDirty();
             }
-            if (this.isEnabled() && !this.parent.player.getEntityWorld().isClient && this.activePower instanceof PersistPower persistSongPower) {
-                if (persistSongPower.tick(this)) this.disable();
+            if (this.isEnabled() && !this.parent.player.getEntityWorld().isClient && this.activeAbility instanceof PersistAbility persistAbility) {
+                if (persistAbility.tick(this)) this.disable();
                 this.parent.markDirty();
             }
         }
 
         public void keyPress() {
-            if (this.activePower.isEmpty()) {
+            if (this.activeAbility.isEmpty()) {
                 this.disable();
                 return;
             }
             if (this.getState() == State.DENY) return;
             if (this.isEnabled()) {
-                if (this.activePower.isPersist()) this.disable();
-                else this.activePower.unapply(this);
+                if (this.activeAbility.isPersist()) this.disable();
+                else this.activeAbility.unapply(this);
             } else {
-                if (this.activePower.isPersist()) this.enable();
+                if (this.activeAbility.isPersist()) this.enable();
                 else if (this.getState() != State.DENY) {
                     boolean bl = this.getState() == State.RECOVER;
-                    if (this.activePower.apply(this) && bl) {
-                        this.getPlayer().addExhaustion((float) this.activePower.getExhaustion(this));
+                    if (this.activeAbility.apply(this) && bl) {
+                        this.getPlayer().addExhaustion((float) this.activeAbility.getExhaustion(this));
                         this.secondaryCooldown = 0;
                     }
                 }
             }
         }
 
-        public PowerCategory getType() {
+        public AbilityCategory getType() {
             return this.type;
         }
 
@@ -222,9 +222,9 @@ public class PowerData implements Serializable, Tickable {
 
         public void setEnabled(boolean enabled) {
             if (!this.enabled && enabled)
-                this.activePower.apply(this);
+                this.activeAbility.apply(this);
             if (this.enabled && !enabled)
-                this.activePower.unapply(this);
+                this.activeAbility.unapply(this);
             this.enabled = enabled;
             this.parent.markDirty();
         }
@@ -237,19 +237,19 @@ public class PowerData implements Serializable, Tickable {
             this.setEnabled(false);
         }
 
-        public AbstractPower<?> getActivePower() {
-            return this.activePower;
+        public AbstractAbility<?> getActiveAbility() {
+            return this.activeAbility;
         }
 
-        public void setActivePower(AbstractPower<?> activePower) {
-            if (!this.activePower.isEmpty() && this.activePower != activePower)
+        public void setActiveAbility(AbstractAbility<?> activeAbility) {
+            if (!this.activeAbility.isEmpty() && this.activeAbility != activeAbility)
                 this.disable();
-            this.activePower = activePower;
+            this.activeAbility = activeAbility;
             this.parent.markDirty();
         }
 
-        public boolean hasPower() {
-            return !this.activePower.isEmpty();
+        public boolean hasAbility() {
+            return !this.activeAbility.isEmpty();
         }
 
         public PlayerEntity getPlayer() {
@@ -271,8 +271,8 @@ public class PowerData implements Serializable, Tickable {
         }
 
         public void cooldown() {
-            this.primaryCooldown = this.activePower.getPrimaryCooldown(this);
-            this.secondaryCooldown = this.activePower.getSecondaryCooldown(this);
+            this.primaryCooldown = this.activeAbility.getPrimaryCooldown(this);
+            this.secondaryCooldown = this.activeAbility.getSecondaryCooldown(this);
         }
     }
 

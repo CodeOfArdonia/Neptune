@@ -1,16 +1,16 @@
 package com.iafenvoy.neptune.forge.component;
 
-import com.iafenvoy.neptune.power.PowerData;
+import com.iafenvoy.neptune.ability.AbilityData;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraftforge.common.capabilities.AutoRegisterCapability;
 
 @AutoRegisterCapability
-public class PowerDataStorage implements ITickableCapability {
-    private final PowerData playerData;
+public class AbilityDataStorage implements ITickableCapability {
+    private final AbilityData playerData;
 
-    public PowerDataStorage(PlayerEntity player) {
-        this.playerData = new PowerData(player);
+    public AbilityDataStorage(PlayerEntity player) {
+        this.playerData = new AbilityData(player);
     }
 
     @Override
@@ -23,7 +23,7 @@ public class PowerDataStorage implements ITickableCapability {
         this.playerData.decode(compound);
     }
 
-    public PowerData getData() {
+    public AbilityData getData() {
         return this.playerData;
     }
 

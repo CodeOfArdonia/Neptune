@@ -1,8 +1,8 @@
 package com.iafenvoy.neptune.network;
 
 import com.iafenvoy.neptune.NeptuneConstants;
-import com.iafenvoy.neptune.power.ClientPowerEvents;
-import com.iafenvoy.neptune.power.type.AbstractPower;
+import com.iafenvoy.neptune.ability.ClientAbilityEvents;
+import com.iafenvoy.neptune.ability.type.AbstractAbility;
 import dev.architectury.networking.NetworkManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -13,14 +13,14 @@ import net.minecraft.world.World;
 @Environment(EnvType.CLIENT)
 public class ClientNetworkHelper {
     public static void init() {
-        NetworkManager.registerReceiver(NetworkManager.Side.S2C, NeptuneConstants.POWER_STATE_CHANGE, (buf, context) -> {
+        NetworkManager.registerReceiver(NetworkManager.Side.S2C, NeptuneConstants.ABILITY_STATE_CHANGE, (buf, context) -> {
             World world = MinecraftClient.getInstance().world;
             assert world != null;
             PlayerEntity player = world.getPlayerByUuid(buf.readUuid());
-            AbstractPower<?> power = AbstractPower.byId(buf.readIdentifier());
+            AbstractAbility<?> ability = AbstractAbility.byId(buf.readIdentifier());
             boolean enable = buf.readBoolean();
-            if (!power.isEmpty())
-                (enable ? ClientPowerEvents.POWER_ENABLE : ClientPowerEvents.POWER_DISABLE).invoker().onChange(player, power);
+            if (!ability.isEmpty())
+                (enable ? ClientAbilityEvents.ABILITY_ENABLE : ClientAbilityEvents.ABILITY_DISABLE).invoker().onChange(player, ability);
         });
     }
 }
