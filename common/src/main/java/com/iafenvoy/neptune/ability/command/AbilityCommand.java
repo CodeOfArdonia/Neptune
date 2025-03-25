@@ -42,15 +42,13 @@ public final class AbilityCommand {
                                         .suggests(AbilitySuggestions.ABILITY_CATEGORY)
                                         .then(argument("ability", IdentifierArgumentType.identifier())
                                                 .suggests(AbilitySuggestions.ABILITY_TYPE)
-                                                .executes(ctx -> modifyAbility(ctx, true))
+                                                .executes(ctx -> grantAbility(ctx, true))
                                         )))
-                        .then(literal("revoke")
+                        .then(literal("remove")
                                 .then(argument("category", IdentifierArgumentType.identifier())
-                                        .suggests(AbilitySuggestions.ABILITY_CATEGORY)
-                                        .then(argument("ability", IdentifierArgumentType.identifier())
-                                                .suggests(AbilitySuggestions.ABILITY_TYPE)
-                                                .executes(ctx -> modifyAbility(ctx, false))
-                                        )))
+                                        .suggests(AbilitySuggestions.ABILITY_TYPE)
+                                        .executes(ctx -> grantAbility(ctx, false))
+                                ))
                 )
         );
     }
@@ -63,7 +61,7 @@ public final class AbilityCommand {
         return players.size();
     }
 
-    private static int modifyAbility(CommandContext<ServerCommandSource> context, boolean grant) throws CommandSyntaxException {
+    private static int grantAbility(CommandContext<ServerCommandSource> context, boolean grant) throws CommandSyntaxException {
         Collection<ServerPlayerEntity> players = EntityArgumentType.getPlayers(context, "targets");
         Optional<AbilityCategory> optional = AbilityCategory.byId(IdentifierArgumentType.getIdentifier(context, "category"));
         if (optional.isEmpty()) throw UNKNOWN_CATEGORY.create();
@@ -72,6 +70,16 @@ public final class AbilityCommand {
         if (ability == DummyAbility.EMPTY) throw UNKNOWN_ABILITY.create();
         for (ServerPlayerEntity player : players)
             AbilityData.byPlayer(player).get(category).setActiveAbility(ability);
+        return players.size();
+    }
+
+    private static int removeAbility(CommandContext<ServerCommandSource> context, boolean grant) throws CommandSyntaxException {
+        Collection<ServerPlayerEntity> players = EntityArgumentType.getPlayers(context, "targets");
+        Optional<AbilityCategory> optional = AbilityCategory.byId(IdentifierArgumentType.getIdentifier(context, "category"));
+        if (optional.isEmpty()) throw UNKNOWN_CATEGORY.create();
+        AbilityCategory category = optional.get();
+        for (ServerPlayerEntity player : players)
+            AbilityData.byPlayer(player).get(category).removeAbility();
         return players.size();
     }
 }

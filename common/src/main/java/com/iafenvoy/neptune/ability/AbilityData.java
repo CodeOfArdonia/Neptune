@@ -248,6 +248,10 @@ public class AbilityData implements Serializable, Tickable {
             this.parent.markDirty();
         }
 
+        public void removeAbility() {
+            this.setActiveAbility(DummyAbility.EMPTY);
+        }
+
         public boolean hasAbility() {
             return !this.activeAbility.isEmpty();
         }
