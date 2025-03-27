@@ -1,5 +1,6 @@
 package com.iafenvoy.neptune.accessory.fabric;
 
+import com.iafenvoy.neptune.accessory.Accessory;
 import com.iafenvoy.neptune.accessory.AccessoryManager;
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.SlotType;
@@ -8,7 +9,7 @@ import dev.emi.trinkets.api.TrinketsApi;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Pair;
 
@@ -65,5 +66,9 @@ public class AccessoryManagerImpl extends AccessoryManager {
     public static boolean isHat(SlotReference reference) {
         SlotType type = reference.inventory().getSlotType();
         return type.getGroup().equals("head") && type.getName().equals("hat");
+    }
+
+    public static <T extends Item & Accessory> void register(T accessory) {
+        TrinketsApi.registerTrinket(accessory, new TrinketImpl(accessory));
     }
 }

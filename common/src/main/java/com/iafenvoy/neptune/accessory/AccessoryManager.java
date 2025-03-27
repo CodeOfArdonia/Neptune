@@ -24,6 +24,11 @@ public class AccessoryManager {
         throw new AssertionError("This method should be replaced by Architectury");
     }
 
+    @ExpectPlatform
+    public static <T extends Item & Accessory> void register(T accessory) {
+        throw new AssertionError("This method should be replaced by Architectury");
+    }
+
     @Nullable
     public static BackHolder getBack(Item item) {
         return BACK_HOLDERS.get(item);

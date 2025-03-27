@@ -1,14 +1,12 @@
-package com.iafenvoy.neptune.accessory.interfaces.internal;
+package com.iafenvoy.neptune.accessory;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import org.jetbrains.annotations.ApiStatus;
 
-@ApiStatus.Internal
-public interface AbstractAccessory {
+public interface Accessory {
     default void tick(ItemStack stack, LivingEntity entity) {
     }
 

@@ -1,8 +1,9 @@
 package com.iafenvoy.neptune.accessory.forge;
 
+import com.iafenvoy.neptune.accessory.Accessory;
 import com.iafenvoy.neptune.accessory.AccessoryManager;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -36,5 +37,9 @@ public class AccessoryManagerImpl extends AccessoryManager {
     private static void findAndApply(IDynamicStackHandler handler, Consumer<ItemStack>... consumers) {
         for (int i = 0; i < handler.getSlots() && i < consumers.length; i++)
             consumers[i].accept(handler.getStackInSlot(i));
+    }
+
+    public static <T extends Item & Accessory> void register(T accessory) {
+        CuriosApi.registerCurio(accessory, new CurioImpl(accessory));
     }
 }
