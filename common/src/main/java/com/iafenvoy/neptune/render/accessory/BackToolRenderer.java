@@ -1,5 +1,6 @@
-package com.iafenvoy.neptune.render.tool;
+package com.iafenvoy.neptune.render.accessory;
 
+import com.iafenvoy.neptune.accessory.AccessoryManager;
 import com.iafenvoy.neptune.registry.NeptuneTags;
 import com.iafenvoy.neptune.render.armor.IArmorRenderHelper;
 import net.fabricmc.api.EnvType;
@@ -30,13 +31,13 @@ public class BackToolRenderer extends HeldItemFeatureRenderer<AbstractClientPlay
 
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider provider, int i, AbstractClientPlayerEntity entity, float f, float g, float h, float j, float k, float l) {
-        Map<BackBeltToolManager.Place, ItemStack> stacks = BackBeltToolManager.getAllEquipped(entity);
+        Map<AccessoryManager.Place, ItemStack> stacks = AccessoryManager.getAllEquipped(entity);
         if (entity.getEquippedStack(EquipmentSlot.CHEST).getItem() == Items.ELYTRA)
             return;
-        if (stacks.containsKey(BackBeltToolManager.Place.BACK_LEFT))
-            this.renderItem(stacks.get(BackBeltToolManager.Place.BACK_LEFT), matrices, provider, i, entity, true);
-        if (stacks.containsKey(BackBeltToolManager.Place.BACK_RIGHT))
-            this.renderItem(stacks.get(BackBeltToolManager.Place.BACK_RIGHT), matrices, provider, i, entity, false);
+        if (stacks.containsKey(AccessoryManager.Place.BACK_LEFT))
+            this.renderItem(stacks.get(AccessoryManager.Place.BACK_LEFT), matrices, provider, i, entity, true);
+        if (stacks.containsKey(AccessoryManager.Place.BACK_RIGHT))
+            this.renderItem(stacks.get(AccessoryManager.Place.BACK_RIGHT), matrices, provider, i, entity, false);
     }
 
     private void renderItem(ItemStack stack, MatrixStack matrices, VertexConsumerProvider provider, int i, AbstractClientPlayerEntity entity, boolean left) {
@@ -54,7 +55,7 @@ public class BackToolRenderer extends HeldItemFeatureRenderer<AbstractClientPlay
             matrices.translate(0, -0.4, -0.4);
         }
         matrices.translate(0, -0.2, 0.1);
-        BackBeltToolManager.BackHolder holder = BackBeltToolManager.getBack(stack.getItem());
+        AccessoryManager.BackHolder holder = AccessoryManager.getBack(stack.getItem());
         if (holder != null) holder.transformer().accept(matrices, left);
         this.heldItemRenderer.renderItem(entity, stack, ModelTransformationMode.THIRD_PERSON_LEFT_HAND, false, matrices, provider, i);
         matrices.pop();

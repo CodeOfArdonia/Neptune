@@ -1,5 +1,6 @@
-package com.iafenvoy.neptune.render.tool;
+package com.iafenvoy.neptune.render.accessory;
 
+import com.iafenvoy.neptune.accessory.AccessoryManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.ModelPart;
@@ -27,11 +28,11 @@ public class BeltToolRenderer extends HeldItemFeatureRenderer<AbstractClientPlay
 
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider provider, int i, AbstractClientPlayerEntity entity, float f, float g, float h, float j, float k, float l) {
-        Map<BackBeltToolManager.Place, ItemStack> stacks = BackBeltToolManager.getAllEquipped(entity);
-        if (stacks.containsKey(BackBeltToolManager.Place.BELT_LEFT))
-            this.renderItem(stacks.get(BackBeltToolManager.Place.BELT_LEFT), matrices, provider, i, entity, true);
-        if (stacks.containsKey(BackBeltToolManager.Place.BELT_RIGHT))
-            this.renderItem(stacks.get(BackBeltToolManager.Place.BELT_RIGHT), matrices, provider, i, entity, false);
+        Map<AccessoryManager.Place, ItemStack> stacks = AccessoryManager.getAllEquipped(entity);
+        if (stacks.containsKey(AccessoryManager.Place.BELT_LEFT))
+            this.renderItem(stacks.get(AccessoryManager.Place.BELT_LEFT), matrices, provider, i, entity, true);
+        if (stacks.containsKey(AccessoryManager.Place.BELT_RIGHT))
+            this.renderItem(stacks.get(AccessoryManager.Place.BELT_RIGHT), matrices, provider, i, entity, false);
     }
 
     private void renderItem(ItemStack stack, MatrixStack matrices, VertexConsumerProvider provider, int i, AbstractClientPlayerEntity entity, boolean left) {
@@ -42,7 +43,7 @@ public class BeltToolRenderer extends HeldItemFeatureRenderer<AbstractClientPlay
         matrices.translate(switchBeltSide * (left ? 1 : -1), 0.5D, 0.05D);
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-90.0F));
         matrices.scale(1.5f, 1.5f, 1.5f);
-        BackBeltToolManager.BeltHolder holder = BackBeltToolManager.getBelt(stack.getItem());
+        AccessoryManager.BeltHolder holder = AccessoryManager.getBelt(stack.getItem());
         if (holder != null) holder.transformer().accept(matrices, left);
         this.heldItemRenderer.renderItem(entity, stack, ModelTransformationMode.GROUND, left, matrices, provider, i);
         matrices.pop();

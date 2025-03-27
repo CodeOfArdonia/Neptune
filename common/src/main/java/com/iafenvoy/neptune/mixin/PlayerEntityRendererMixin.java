@@ -1,7 +1,7 @@
 package com.iafenvoy.neptune.mixin;
 
-import com.iafenvoy.neptune.render.tool.BackToolRenderer;
-import com.iafenvoy.neptune.render.tool.BeltToolRenderer;
+import com.iafenvoy.neptune.render.accessory.BackToolRenderer;
+import com.iafenvoy.neptune.render.accessory.BeltToolRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.network.AbstractClientPlayerEntity;

@@ -25,18 +25,18 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
     // CCA
-    modImplementation(include("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cca_version}"))
-    modImplementation(include("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cca_version}"))
+    modApi "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cca_version}"
+    modApi "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
 
     // Trinkets
     modApi(include("dev.emi:trinkets:${trinkets_version}"))
 
     // Fabric Shield Lib
-    modImplementation(include("com.github.CrimsonDawn45:Fabric-Shield-Lib:v${project.fabric_shield_lib_version}"))
+    modApi(include("com.github.CrimsonDawn45:Fabric-Shield-Lib:v${project.fabric_shield_lib_version}"))
 
     // Optional
     // EMI
-    modImplementation "dev.emi:emi-fabric:${emi_version}"
+    modApi "dev.emi:emi-fabric:${emi_version}"
 }
 
 processResources {

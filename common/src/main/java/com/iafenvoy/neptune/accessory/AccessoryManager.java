@@ -1,11 +1,12 @@
-package com.iafenvoy.neptune.render.tool;
+package com.iafenvoy.neptune.accessory;
 
 import com.iafenvoy.neptune.util.function.consumer.Consumer2;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -14,14 +15,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Environment(EnvType.CLIENT)
-public class BackBeltToolManager {
-    protected static final String BACK = "back";
-    protected static final String BELT = "belt";
+public class AccessoryManager {
     private static final Map<Item, BackHolder> BACK_HOLDERS = new HashMap<>();
     private static final Map<Item, BeltHolder> BELT_HOLDERS = new HashMap<>();
 
     @ExpectPlatform
-    public static Map<Place, ItemStack> getAllEquipped(PlayerEntity player) {
+    public static Map<Place, ItemStack> getAllEquipped(LivingEntity living) {
         throw new AssertionError("This method should be replaced by Architectury");
     }
 
@@ -35,8 +34,8 @@ public class BackBeltToolManager {
         return BELT_HOLDERS.get(item);
     }
 
-    public static ItemStack getEquipped(PlayerEntity player, Place place) {
-        return getAllEquipped(player).getOrDefault(place, ItemStack.EMPTY);
+    public static ItemStack getEquipped(LivingEntity living, Place place) {
+        return getAllEquipped(living).getOrDefault(place, ItemStack.EMPTY);
     }
 
     public static void registerBack(Item item, boolean alone, Consumer2<MatrixStack, Boolean> transformer) {
@@ -72,6 +71,22 @@ public class BackBeltToolManager {
     }
 
     public enum Place {
-        BACK_LEFT, BACK_RIGHT, BELT_LEFT, BELT_RIGHT
+        BACK_LEFT(EquipmentSlot.CHEST),
+        BACK_RIGHT(EquipmentSlot.CHEST),
+        BELT_LEFT(EquipmentSlot.CHEST),
+        BELT_RIGHT(EquipmentSlot.CHEST),
+        HAT(EquipmentSlot.HEAD),
+        NECKLACE(EquipmentSlot.HEAD),
+        FEET(EquipmentSlot.FEET);
+
+        private final EquipmentSlot slot;
+
+        Place(EquipmentSlot slot) {
+            this.slot = slot;
+        }
+
+        public EquipmentSlot getSlot() {
+            return this.slot;
+        }
     }
 }

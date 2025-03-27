@@ -3,7 +3,10 @@
     "player"
   ],
   "slots": [
+    "head",
+    "necklace",
     "back",
-    "belt"
+    "belt",
+    "feet"
   ]
 }
