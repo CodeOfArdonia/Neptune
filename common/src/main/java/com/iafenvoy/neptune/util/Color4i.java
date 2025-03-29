@@ -13,6 +13,7 @@ public class Color4i {
         this.a = a;
     }
 
+    @Deprecated(forRemoval = true)
     public Color4i(double r, double g, double b, double a) {
         this((int) (r * MUL), (int) (g * MUL), (int) (b * MUL), (int) (a * MUL));
     }

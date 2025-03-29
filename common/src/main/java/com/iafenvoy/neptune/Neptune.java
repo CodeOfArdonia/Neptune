@@ -1,9 +1,12 @@
 package com.iafenvoy.neptune;
 
 import com.iafenvoy.neptune.ability.type.AbstractAbility;
+import com.iafenvoy.neptune.event.PlayerEvents;
 import com.iafenvoy.neptune.network.ServerNetworkHelper;
 import com.iafenvoy.neptune.registry.*;
+import com.iafenvoy.neptune.trail.storage.ServerTrailStorage;
 import com.mojang.logging.LogUtils;
+import dev.architectury.event.events.common.TickEvent;
 import dev.architectury.registry.CreativeTabRegistry;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
@@ -26,5 +29,8 @@ public final class Neptune {
         ServerNetworkHelper.init();
         CreativeTabRegistry.appendBuiltin(Registries.ITEM_GROUP.get(ItemGroups.FUNCTIONAL), NeptuneBlocks.WEAPON_DESK.get());
         AbstractAbility.initAll();
+
+        TickEvent.SERVER_POST.register(x -> ServerTrailStorage.tick());
+        PlayerEvents.SPAWN.register(ServerTrailStorage::onPlayerJoin);
     }
 }

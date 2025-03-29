@@ -17,6 +17,7 @@
     "PlayerInventoryMixin",
     "PlayerManagerMixin",
     "ServerEntityManagerMixin",
+    "ServerPlayerEntityMixin",
     "integration.ModPacketsC2SMixin"
   ],
   "client": [
@@ -25,12 +26,14 @@
     "BossBarHudMixin",
     "BufferBuilderStorageMixin",
     "BuiltinModelItemRendererMixin",
+    "ClientEntityManagerMixin",
     "ClientWorldMixin",
     "HeadFeatureRendererMixin",
     "InGameHudMixin",
     "ItemRendererMixin",
     "PlayerEntityRendererMixin",
-    "SkullBlockEntityRendererMixin"
+    "SkullBlockEntityRendererMixin",
+    "WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
