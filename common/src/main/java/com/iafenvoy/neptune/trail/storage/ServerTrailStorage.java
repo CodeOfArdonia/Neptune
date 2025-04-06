@@ -45,7 +45,8 @@ public enum ServerTrailStorage implements TrailStorage {
                 Set<Identifier> shouldRemove = entry.getValue().stream().filter(x -> TrailRegistry.shouldRemove(entry.getKey(), x)).collect(Collectors.toSet());
                 if (!shouldRemove.isEmpty()) removed.put(entry.getKey(), shouldRemove);
             }
-        NeptuneConstants.sendToAll(REMOVE_TRAIL, () -> encodeBuf(removed, PacketBufferUtils.create()));
+        if (!removed.isEmpty())
+            NeptuneConstants.sendToAll(REMOVE_TRAIL, () -> encodeBuf(removed, PacketBufferUtils.create()));
     }
 
     @Override
