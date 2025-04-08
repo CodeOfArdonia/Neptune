@@ -39,7 +39,8 @@ public class AccessoryManagerImpl extends AccessoryManager {
             consumers[i].accept(handler.getStackInSlot(i));
     }
 
-    public static <T extends Item & Accessory> void register(T accessory) {
-        CuriosApi.registerCurio(accessory, new CurioImpl(accessory));
+    @SafeVarargs
+    public static <T extends Item & Accessory> void register(T... accessories) {
+        for (T accessory : accessories) CuriosApi.registerCurio(accessory, new CurioImpl(accessory));
     }
 }

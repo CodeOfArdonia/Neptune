@@ -68,7 +68,8 @@ public class AccessoryManagerImpl extends AccessoryManager {
         return type.getGroup().equals("head") && type.getName().equals("hat");
     }
 
-    public static <T extends Item & Accessory> void register(T accessory) {
-        TrinketsApi.registerTrinket(accessory, new TrinketImpl(accessory));
+    @SafeVarargs
+    public static <T extends Item & Accessory> void register(T... accessories) {
+        for (T accessory : accessories) TrinketsApi.registerTrinket(accessory, new TrinketImpl(accessory));
     }
 }

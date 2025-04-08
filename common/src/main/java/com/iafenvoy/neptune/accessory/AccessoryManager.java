@@ -24,8 +24,9 @@ public class AccessoryManager {
         throw new AssertionError("This method should be replaced by Architectury");
     }
 
+    @SafeVarargs
     @ExpectPlatform
-    public static <T extends Item & Accessory> void register(T accessory) {
+    public static <T extends Item & Accessory> void register(T... accessories) {
         throw new AssertionError("This method should be replaced by Architectury");
     }
 
