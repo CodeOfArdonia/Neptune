@@ -25,7 +25,7 @@
       "com.iafenvoy.neptune.fabric.NeptuneFabricClient"
     ],
     "emi": [
-      "com.iafenvoy.neptune.compat.emi.WeaponDeskRecipePlugin"
+      "com.iafenvoy.neptune.compat.WeaponDeskRecipePlugin"
     ],
     "cardinal-components": [
       "com.iafenvoy.neptune.fabric.component.ModComponentEntry"

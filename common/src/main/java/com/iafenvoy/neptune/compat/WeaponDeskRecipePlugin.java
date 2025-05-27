@@ -1,4 +1,4 @@
-package com.iafenvoy.neptune.compat.emi;
+package com.iafenvoy.neptune.compat;
 
 import com.iafenvoy.neptune.Neptune;
 import com.iafenvoy.neptune.data.recipe.WeaponDeskRecipe;

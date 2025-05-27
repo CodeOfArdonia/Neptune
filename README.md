@@ -12,7 +12,6 @@ of `Architectury`
 - Some package for Item, Entity and so on. Also include some hooks.
 - A lot of functional interfaces.
 - A Weapon Desk which can craft tons of weapons. (Add recipe through datapack.)
-- NBT based colorful item glint.
 - Common back/belt item with `Trinkets` and `Curios`.
 - An ability system.
 
