@@ -8,6 +8,7 @@ import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.render.entity.model.EntityModelLoader;
 import net.minecraft.client.render.entity.model.SkullEntityModel;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
@@ -15,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class SkullRenderRegistry {
     private static final List<SkullInfoWithModel> SKULL_INFO_WITH_MODEL = new ArrayList<>();
@@ -66,5 +68,9 @@ public class SkullRenderRegistry {
 
     private record SkullInfoWithLayer(SkullBlock.SkullType type, Identifier texture, EntityModelLayer layer,
                                       List<Block> blocks) {
+    }
+
+    public interface SkullTextureProvider {
+        Optional<Identifier> getTexture(ItemStack stack);
     }
 }

@@ -49,6 +49,8 @@ public abstract class AbstractClientPlayerEntityMixin extends PlayerEntity {
 
     @Unique
     private Optional<Identifier> neptune$findTexture(ItemStack head) {
+        if (head.getItem() instanceof SkullRenderRegistry.SkullTextureProvider provider)
+            return provider.getTexture(head);
         if (head.getItem() instanceof SkullItem skullItem && skullItem.getBlock() instanceof AbstractSkullBlock skullBlock) {
             Identifier texture = SkullRenderRegistry.getTextureFromType(skullBlock.getSkullType());
             if (texture != null) return Optional.of(texture);
