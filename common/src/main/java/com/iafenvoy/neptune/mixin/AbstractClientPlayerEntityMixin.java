@@ -1,5 +1,6 @@
 package com.iafenvoy.neptune.mixin;
 
+import com.iafenvoy.neptune.accessory.AccessoryManager;
 import com.iafenvoy.neptune.render.SkullRenderRegistry;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
@@ -21,11 +22,13 @@ import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Environment(EnvType.CLIENT)
 @Mixin(AbstractClientPlayerEntity.class)
@@ -36,13 +39,19 @@ public abstract class AbstractClientPlayerEntityMixin extends PlayerEntity {
 
     @Inject(method = "getSkinTexture", at = @At("HEAD"), cancellable = true)
     private void handleCustomSkin(CallbackInfoReturnable<Identifier> cir) {
-        ItemStack head = this.getEquippedStack(EquipmentSlot.HEAD);
+        Optional<Identifier> optional = this.neptune$findTexture(this.getEquippedStack(EquipmentSlot.HEAD));
+        if (optional.isPresent()) cir.setReturnValue(optional.get());
+        else {
+            optional = this.neptune$findTexture(AccessoryManager.getEquipped(this, AccessoryManager.Place.HAT));
+            optional.ifPresent(cir::setReturnValue);
+        }
+    }
+
+    @Unique
+    private Optional<Identifier> neptune$findTexture(ItemStack head) {
         if (head.getItem() instanceof SkullItem skullItem && skullItem.getBlock() instanceof AbstractSkullBlock skullBlock) {
             Identifier texture = SkullRenderRegistry.getTextureFromType(skullBlock.getSkullType());
-            if (texture != null) {
-                cir.setReturnValue(texture);
-                return;
-            }
+            if (texture != null) return Optional.of(texture);
             if (skullBlock.getSkullType() == SkullBlock.Type.PLAYER) {
                 GameProfile gameProfile = null;
                 if (head.getNbt() != null) {//Copy from net.minecraft.block.PlayerSkullBlock#onPlaced
@@ -56,9 +65,10 @@ public abstract class AbstractClientPlayerEntityMixin extends PlayerEntity {
                     PlayerSkinProvider skinProvider = MinecraftClient.getInstance().getSkinProvider();
                     Map<MinecraftProfileTexture.Type, MinecraftProfileTexture> map = skinProvider.getTextures(gameProfile);
                     if (map.containsKey(MinecraftProfileTexture.Type.SKIN))
-                        cir.setReturnValue(skinProvider.loadSkin(map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN));
+                        return Optional.of(skinProvider.loadSkin(map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN));
                 }
             }
         }
+        return Optional.empty();
     }
 }

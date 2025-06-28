@@ -69,11 +69,9 @@ public class AccessoryManager {
     }
 
     public record BackHolder(Item item, boolean alone, Consumer2<MatrixStack, Boolean> transformer) {
-
     }
 
     public record BeltHolder(Item item, Consumer2<MatrixStack, Boolean> transformer) {
-
     }
 
     public enum Place {
