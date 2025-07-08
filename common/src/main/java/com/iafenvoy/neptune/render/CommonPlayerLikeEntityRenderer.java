@@ -18,7 +18,6 @@ public class CommonPlayerLikeEntityRenderer<T extends MobEntity & EntityTextureP
 
     public CommonPlayerLikeEntityRenderer(EntityRendererFactory.Context ctx, boolean slim) {
         super(ctx, new PlayerEntityModel<>(ctx.getPart(EntityModelLayers.PLAYER), slim), 0.5F);
-        this.model.setVisible(true);
     }
 
     @Override

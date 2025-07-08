@@ -19,6 +19,5 @@ public class CommonPlayerLikeWithMarkerEntityRenderer<T extends MobEntity & Enti
     public CommonPlayerLikeWithMarkerEntityRenderer(EntityRendererFactory.Context ctx, boolean glint, boolean slim) {
         super(ctx, slim);
         this.addFeature(new MarkerFeatureRenderer<>(this, glint));
-        this.model.setVisible(true);
     }
 }
