@@ -49,7 +49,6 @@ public enum ServerTrailStorage implements TrailStorage {
             }
         if (!removed.isEmpty())
             PacketDistributor.sendToAllPlayers(new TrailActionPayload(encode(removed), TrailActionPayload.ActionType.REMOVE));
-        ;
     }
 
     @Override

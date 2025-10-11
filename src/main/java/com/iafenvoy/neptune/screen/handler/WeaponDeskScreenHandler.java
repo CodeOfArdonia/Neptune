@@ -20,6 +20,7 @@ import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class WeaponDeskScreenHandler extends AbstractContainerMenu {
         this.contentsChangedListener = () -> {
         };
         this.input = new SimpleContainer(2) {
+            @Override
             public void setChanged() {
                 super.setChanged();
                 WeaponDeskScreenHandler.this.slotsChanged(this);
@@ -57,11 +59,13 @@ public class WeaponDeskScreenHandler extends AbstractContainerMenu {
         this.materialSlot = this.addSlot(new Slot(this.input, 0, 12, 23));
         this.stickSlot = this.addSlot(new Slot(this.input, 1, 12, 43));
         this.outputSlot = this.addSlot(new Slot(this.output, 2, 143, 33) {
-            public boolean mayPlace(ItemStack stack) {
+            @Override
+            public boolean mayPlace(@NotNull ItemStack stack) {
                 return false;
             }
 
-            public void onTake(Player player, ItemStack stack) {
+            @Override
+            public void onTake(@NotNull Player player, @NotNull ItemStack stack) {
                 stack.onCraftedBy(player.level(), player, stack.getCount());
                 RecipeHolder<?> recipe = WeaponDeskScreenHandler.this.output.getRecipeUsed();
                 if (recipe == null || !(recipe.value() instanceof WeaponDeskRecipe weaponDeskRecipe)) return;
@@ -112,12 +116,12 @@ public class WeaponDeskScreenHandler extends AbstractContainerMenu {
     }
 
     @Override
-    public boolean stillValid(Player player) {
+    public boolean stillValid(@NotNull Player player) {
         return stillValid(this.context, player, NeptuneBlocks.WEAPON_DESK.get());
     }
 
     @Override
-    public boolean clickMenuButton(Player player, int id) {
+    public boolean clickMenuButton(@NotNull Player player, int id) {
         if (this.isInBounds(id)) {
             this.selectedRecipe.set(id);
             this.populateResult();
@@ -130,7 +134,7 @@ public class WeaponDeskScreenHandler extends AbstractContainerMenu {
     }
 
     @Override
-    public void slotsChanged(Container inventory) {
+    public void slotsChanged(@NotNull Container inventory) {
         this.updateInput(new RecipeWrapper(new InvWrapper(inventory)));
     }
 
@@ -160,7 +164,7 @@ public class WeaponDeskScreenHandler extends AbstractContainerMenu {
     }
 
     @Override
-    public MenuType<?> getType() {
+    public @NotNull MenuType<?> getType() {
         return NeptuneScreenHandlers.WEAPON_DESK.get();
     }
 
@@ -169,12 +173,12 @@ public class WeaponDeskScreenHandler extends AbstractContainerMenu {
     }
 
     @Override
-    public boolean canTakeItemForPickAll(ItemStack stack, Slot slot) {
+    public boolean canTakeItemForPickAll(@NotNull ItemStack stack, Slot slot) {
         return slot.container != this.output && super.canTakeItemForPickAll(stack, slot);
     }
 
     @Override
-    public ItemStack quickMoveStack(Player player, int slot) {
+    public @NotNull ItemStack quickMoveStack(@NotNull Player player, int slot) {
         ItemStack itemStack = ItemStack.EMPTY;
         Slot slot2 = this.slots.get(slot);
         if (slot2.hasItem()) {
@@ -221,7 +225,7 @@ public class WeaponDeskScreenHandler extends AbstractContainerMenu {
     }
 
     @Override
-    public void removed(Player player) {
+    public void removed(@NotNull Player player) {
         super.removed(player);
         this.output.removeItemNoUpdate(1);
         this.context.execute((world, pos) -> this.clearContainer(player, this.input));

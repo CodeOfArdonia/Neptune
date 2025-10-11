@@ -13,11 +13,12 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class WeaponDeskScreen extends AbstractContainerScreen<WeaponDeskScreenHandler> {
-    private static final ResourceLocation TEXTURE = ResourceLocation.tryBuild(Neptune.MOD_ID, "textures/gui/weapon_desk.png");
+    private static final ResourceLocation TEXTURE = Neptune.id("textures/gui/weapon_desk.png");
     private float scrollAmount;
     private boolean mouseClicked;
     private int scrollOffset;
@@ -30,7 +31,7 @@ public class WeaponDeskScreen extends AbstractContainerScreen<WeaponDeskScreenHa
     }
 
     @Override
-    public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
+    public void render(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
         this.renderTooltip(context, mouseX, mouseY);
     }
@@ -62,7 +63,7 @@ public class WeaponDeskScreen extends AbstractContainerScreen<WeaponDeskScreenHa
     }
 
     @Override
-    protected void renderTooltip(GuiGraphics context, int x, int y) {
+    protected void renderTooltip(@NotNull GuiGraphics context, int x, int y) {
         super.renderTooltip(context, x, y);
         if (this.canCraft) {
             int i = this.leftPos + 52;
@@ -125,6 +126,7 @@ public class WeaponDeskScreen extends AbstractContainerScreen<WeaponDeskScreenHa
                 double d = mouseX - (double) (i + m % 4 * 16);
                 double e = mouseY - (double) (j + m / 4 * 18);
                 assert this.minecraft != null;
+                assert this.minecraft.player != null;
                 if (d >= 0.0 && e >= 0.0 && d < 16.0 && e < 18.0 && this.menu.clickMenuButton(this.minecraft.player, l)) {
                     Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_STONECUTTER_SELECT_RECIPE, 1.0F));
                     assert this.minecraft.gameMode != null;

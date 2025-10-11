@@ -12,13 +12,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public record WeaponDeskRecipe(IngredientGroup material, IngredientGroup stick,
                                ItemStack result) implements Recipe<RecipeInput> {
     public static final ResourceLocation ID = Neptune.id("weapon_desk");
 
     @Override
-    public boolean matches(RecipeInput inventory, Level world) {
+    public boolean matches(RecipeInput inventory, @NotNull Level world) {
         if (inventory.size() < 2) return false;
         ItemStack materialStack = inventory.getItem(0), stickStack = inventory.getItem(1);
         return this.material.ingredient.test(materialStack)
@@ -28,7 +29,7 @@ public record WeaponDeskRecipe(IngredientGroup material, IngredientGroup stick,
     }
 
     @Override
-    public ItemStack assemble(RecipeInput inventory, HolderLookup.Provider registryManager) {
+    public @NotNull ItemStack assemble(RecipeInput inventory, HolderLookup.@NotNull Provider registryManager) {
         if (inventory.size() < 2) return ItemStack.EMPTY;
         return this.result.copy();
     }
@@ -39,17 +40,17 @@ public record WeaponDeskRecipe(IngredientGroup material, IngredientGroup stick,
     }
 
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider registryManager) {
+    public @NotNull ItemStack getResultItem(HolderLookup.@NotNull Provider registryManager) {
         return this.result.copy();
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public @NotNull RecipeSerializer<?> getSerializer() {
         return Serializer.INSTANCE;
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public @NotNull RecipeType<?> getType() {
         return Type.INSTANCE;
     }
 
@@ -78,12 +79,12 @@ public record WeaponDeskRecipe(IngredientGroup material, IngredientGroup stick,
         );
 
         @Override
-        public MapCodec<WeaponDeskRecipe> codec() {
+        public @NotNull MapCodec<WeaponDeskRecipe> codec() {
             return CODEC;
         }
 
         @Override
-        public StreamCodec<RegistryFriendlyByteBuf, WeaponDeskRecipe> streamCodec() {
+        public @NotNull StreamCodec<RegistryFriendlyByteBuf, WeaponDeskRecipe> streamCodec() {
             return STREAM_CODEC;
         }
     }

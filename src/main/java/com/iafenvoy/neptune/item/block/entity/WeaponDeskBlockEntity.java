@@ -2,6 +2,7 @@ package com.iafenvoy.neptune.item.block.entity;
 
 import com.iafenvoy.neptune.registry.NeptuneBlockEntities;
 import com.iafenvoy.neptune.screen.handler.WeaponDeskScreenHandler;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -23,16 +24,16 @@ public class WeaponDeskBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NotNull Component getDisplayName() {
         return Component.translatable("gui.neptune.weapon_desk.title");
     }
 
     @Nullable
     @Override
-    public AbstractContainerMenu createMenu(int syncId, Inventory playerInventory, Player player) {
+    public AbstractContainerMenu createMenu(int syncId, @NotNull Inventory playerInventory, @NotNull Player player) {
         return new WeaponDeskScreenHandler(syncId, playerInventory, new ContainerLevelAccess() {
             @Override
-            public <T> Optional<T> evaluate(BiFunction<Level, BlockPos, T> getter) {
+            public <T> @NotNull Optional<T> evaluate(@NotNull BiFunction<Level, BlockPos, T> getter) {
                 return Optional.of(getter.apply(WeaponDeskBlockEntity.this.level, WeaponDeskBlockEntity.this.worldPosition));
             }
         });

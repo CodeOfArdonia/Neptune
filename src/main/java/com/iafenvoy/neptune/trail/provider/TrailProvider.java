@@ -15,14 +15,17 @@ public interface TrailProvider extends Position {
 
     Color4i getTrailColor();
 
+    @Override
     default double x() {
         return this.getCurrentPos().x;
     }
 
+    @Override
     default double y() {
         return this.getCurrentPos().y;
     }
 
+    @Override
     default double z() {
         return this.getCurrentPos().z;
     }

@@ -8,6 +8,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public class StagedMonsterEntityBase extends Monster implements Stage.StagedEntity {
     private static final EntityDataAccessor<Integer> STAGE = SynchedEntityData.defineId(StagedMonsterEntityBase.class, EntityDataSerializers.INT);
@@ -20,13 +21,13 @@ public class StagedMonsterEntityBase extends Monster implements Stage.StagedEnti
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData(SynchedEntityData.@NotNull Builder builder) {
         super.defineSynchedData(builder);
         builder.define(STAGE, 0);
     }
 
     @Override
-    public void load(CompoundTag nbt) {
+    public void load(@NotNull CompoundTag nbt) {
         super.load(nbt);
         if (nbt.contains("stage"))
             this.setStage(nbt.getInt("stage"));
@@ -34,7 +35,7 @@ public class StagedMonsterEntityBase extends Monster implements Stage.StagedEnti
     }
 
     @Override
-    public CompoundTag saveWithoutId(CompoundTag nbt) {
+    public @NotNull CompoundTag saveWithoutId(@NotNull CompoundTag nbt) {
         super.saveWithoutId(nbt);
         nbt.putInt("stage", this.getStageIndex());
         return nbt;

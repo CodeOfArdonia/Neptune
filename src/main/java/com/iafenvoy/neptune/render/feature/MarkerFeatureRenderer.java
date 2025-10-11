@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -26,7 +27,7 @@ public class MarkerFeatureRenderer<T extends Mob & EntityWithMarkerTextureProvid
     }
 
     @Override
-    public void render(PoseStack matrices, MultiBufferSource vertexConsumers, int light, T entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
+    public void render(@NotNull PoseStack matrices, @NotNull MultiBufferSource vertexConsumers, int light, T entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
         Optional<ResourceLocation> marker = entity.getMarkerTextureId();
         HumanoidModel<T> model = this.getParentModel();
         marker.ifPresent(id -> model.renderToBuffer(matrices, vertexConsumers.getBuffer(this.glint ? RenderType.entityTranslucentEmissive(id) : RenderType.entityCutout(id)), light, OverlayTexture.NO_OVERLAY, -1));

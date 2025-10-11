@@ -60,9 +60,9 @@ public class TrailHolder {
 
     public void update(TrailPoint point, boolean vertical) {
         List<TrailPoint> points = this.getPoints(vertical);
-        points.add(0, point);
+        points.addFirst(point);
         if (points.size() > this.provider.getMaxTrailLength())
-            points.remove(points.size() - 1);
+            points.removeLast();
     }
 
     public void update(Vec3 pos, Vec3 delta) {
@@ -97,7 +97,7 @@ public class TrailHolder {
     private void prepare(TrailPoint point, boolean vertical, float partialTicks) {
         List<TrailPoint> points = vertical ? this.verticalRenderPoints : this.horizontalRenderPoints;
         List<TrailPoint> modified = new ArrayList<>();
-        points.add(0, point);
+        points.addFirst(point);
         float totalLength = 0;
         float renderLength = Mth.lerp(partialTicks, this.oldLength, this.length);
         for (int i = 0; i < points.size() - 1; i++) {
@@ -124,7 +124,7 @@ public class TrailHolder {
             points.set(i, points.get(i).withWidth((totalLength - currentLength) * (this.width / totalLength)));
             currentLength += distance;
         }
-        if (points.size() > 1) points.set(points.size() - 1, points.get(points.size() - 1).withWidth(0.01f));
+        if (points.size() > 1) points.set(points.size() - 1, points.getLast().withWidth(0.01f));
     }
 
     private TrailPoint interpolateTrailPoint(float progress, TrailPoint first, TrailPoint second) {

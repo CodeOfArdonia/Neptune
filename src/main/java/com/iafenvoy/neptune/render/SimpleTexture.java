@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
 public class SimpleTexture extends AbstractTexture {
@@ -21,6 +22,6 @@ public class SimpleTexture extends AbstractTexture {
     }
 
     @Override
-    public void load(ResourceManager manager) {
+    public void load(@NotNull ResourceManager manager) {
     }
 }

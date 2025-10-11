@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @OnlyIn(Dist.CLIENT)
@@ -23,14 +24,15 @@ public class EntityRendererBase<T extends Mob> extends HumanoidMobRenderer<T, Hu
         this.addLayer(new HumanoidArmorLayer<>(this, new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)), context.getModelManager()));
         if (eyeTextureId != null)
             this.addLayer(new EyesLayer<>(this) {
-                public RenderType renderType() {
+                @Override
+                public @NotNull RenderType renderType() {
                     return RenderType.eyes(eyeTextureId);
                 }
             });
     }
 
     @Override
-    public ResourceLocation getTextureLocation(T entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull T entity) {
         if (entity instanceof Stage.StagedEntity stagedEntity)
             return this.textureId.getTexture(stagedEntity.getStage());
         return this.textureId.getTexture();

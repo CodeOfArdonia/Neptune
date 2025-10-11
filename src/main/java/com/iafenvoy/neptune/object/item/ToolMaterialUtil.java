@@ -40,7 +40,7 @@ public class ToolMaterialUtil {
             }
 
             @Override
-            public Ingredient getRepairIngredient() {
+            public @NotNull Ingredient getRepairIngredient() {
                 return Ingredient.of(Arrays.stream(repairIngredients).map(Supplier::get).toArray(ItemLike[]::new));
             }
         };

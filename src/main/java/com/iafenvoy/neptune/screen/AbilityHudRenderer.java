@@ -12,7 +12,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class AbilityHudRenderer {
-    private static final ResourceLocation WIDGETS_TEXTURE = ResourceLocation.tryBuild(ResourceLocation.DEFAULT_NAMESPACE, "textures/gui/widgets.png");
+    private static final ResourceLocation WIDGETS_TEXTURE = ResourceLocation.withDefaultNamespace("textures/gui/widgets.png");
     private static final Font TEXT_RENDERER = Minecraft.getInstance().font;
 
     public static void render(Minecraft client, GuiGraphics context) {

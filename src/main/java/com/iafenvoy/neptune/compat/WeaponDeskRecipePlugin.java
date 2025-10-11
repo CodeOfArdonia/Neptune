@@ -14,7 +14,7 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class WeaponDeskRecipePlugin implements EmiPlugin {
         }
 
         @Override
-        public @Nullable ResourceLocation getId() {
+        public @NotNull ResourceLocation getId() {
             return this.holder.id();
         }
 
@@ -69,7 +69,7 @@ public class WeaponDeskRecipePlugin implements EmiPlugin {
             widgets.addTexture(EmiTexture.EMPTY_ARROW, 46, 1);
             widgets.addSlot(ingredients.get(0), 0, 0);
             widgets.addSlot(ingredients.get(1), 20, 0);
-            widgets.addSlot(this.getOutputs().get(0), 78, 0).recipeContext(this);
+            widgets.addSlot(this.getOutputs().getFirst(), 78, 0).recipeContext(this);
         }
     }
 }

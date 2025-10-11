@@ -75,6 +75,7 @@ public class AbilityData implements Serializable, Tickable {
                     tickable.tick(living);
     }
 
+    @Override
     public boolean isDirty() {
         boolean dirty = this.dirty;
         this.dirty = false;

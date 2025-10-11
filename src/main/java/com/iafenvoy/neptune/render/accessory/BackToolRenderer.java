@@ -17,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
@@ -30,7 +31,7 @@ public class BackToolRenderer extends ItemInHandLayer<AbstractClientPlayer, Play
     }
 
     @Override
-    public void render(PoseStack matrices, MultiBufferSource provider, int i, AbstractClientPlayer entity, float f, float g, float h, float j, float k, float l) {
+    public void render(@NotNull PoseStack matrices, @NotNull MultiBufferSource provider, int i, @NotNull AbstractClientPlayer entity, float f, float g, float h, float j, float k, float l) {
         Map<CuriosHelper.Place, ItemStack> stacks = CuriosHelper.getEquipped(entity);
         if (entity.getItemBySlot(EquipmentSlot.CHEST).getItem() == Items.ELYTRA)
             return;
