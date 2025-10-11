@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.iafenvoy.neptune.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "BlockEntityTypeMixin"
+  ],
+  "client": [
+    "AbstractClientPlayerMixin",
+    "HeadFeatureRendererMixin",
+    "HumanoidArmorLayerMixin",
+    "PlayerEntityRendererMixin",
+    "SkullBlockEntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
