@@ -1,13 +1,20 @@
 package com.iafenvoy.neptune.ability;
 
+import com.iafenvoy.neptune.ability.type.AbstractAbility;
+import com.iafenvoy.neptune.event.AbilityStateChangeEvent;
 import com.iafenvoy.neptune.network.payload.AbilityKeybindingSyncPayload;
+import com.iafenvoy.neptune.network.payload.AbilityStateChangePayload;
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
@@ -67,5 +74,14 @@ public class AbilityKeybindings {
         public boolean isPressed() {
             return this.pressed;
         }
+    }
+
+    public static void onAbilityStateChange(AbilityStateChangePayload payload) {
+        Level world = Minecraft.getInstance().level;
+        assert world != null;
+        Player player = world.getPlayerByUUID(payload.player());
+        AbstractAbility<?> ability = AbstractAbility.byId(payload.ability());
+        boolean enable = payload.enable();
+        if (!ability.isEmpty()) NeoForge.EVENT_BUS.post(new AbilityStateChangeEvent(player, ability, enable));
     }
 }

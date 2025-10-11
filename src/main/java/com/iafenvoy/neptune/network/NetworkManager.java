@@ -3,7 +3,6 @@ package com.iafenvoy.neptune.network;
 import com.iafenvoy.neptune.network.payload.AbilityKeybindingSyncPayload;
 import com.iafenvoy.neptune.network.payload.AbilityStateChangePayload;
 import com.iafenvoy.neptune.network.payload.TrailActionPayload;
-import com.iafenvoy.neptune.trail.storage.ClientTrailStorage;
 import io.netty.buffer.Unpooled;
 import net.minecraft.network.FriendlyByteBuf;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -22,6 +21,6 @@ public class NetworkManager {
         event.registrar("1")
                 .playToServer(AbilityKeybindingSyncPayload.TYPE, AbilityKeybindingSyncPayload.STREAM_CODEC, new MainThreadPayloadHandler<>(ServerNetworkHelper::onAbilityKeybindingSync))
                 .playToClient(AbilityStateChangePayload.TYPE, AbilityStateChangePayload.STREAM_CODEC, new MainThreadPayloadHandler<>(ClientNetworkHelper::onAbilityStateChange))
-                .playToClient(TrailActionPayload.TYPE, TrailActionPayload.STREAM_CODEC, new MainThreadPayloadHandler<>(ClientTrailStorage::onTrailAction));
+                .playToClient(TrailActionPayload.TYPE, TrailActionPayload.STREAM_CODEC, new MainThreadPayloadHandler<>(ClientNetworkHelper::onTrailAction));
     }
 }

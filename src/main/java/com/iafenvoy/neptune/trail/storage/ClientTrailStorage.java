@@ -16,7 +16,6 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import java.util.*;
 
@@ -48,7 +47,7 @@ public enum ClientTrailStorage implements TrailStorage {
         return Minecraft.getInstance().getEntityRenderDispatcher().getPackedLightCoords(entity, tickDelta);
     }
 
-    public static void onTrailAction(TrailActionPayload payload, IPayloadContext ctx) {
+    public static void onTrailAction(TrailActionPayload payload) {
         Map<Entity, Set<ResourceLocation>> data = decode(payload.data());
         switch (payload.action()) {
             case ADD -> {
