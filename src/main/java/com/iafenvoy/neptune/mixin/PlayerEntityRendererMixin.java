@@ -21,7 +21,6 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
         super(ctx, model, shadowRadius);
     }
 
-    //TODO::Event
     @Inject(method = "<init>", at = @At("RETURN"))
     private void onInit(EntityRendererProvider.Context ctx, boolean slim, CallbackInfo ci) {
         this.addLayer(new BackToolRenderer(this, ctx.getItemInHandRenderer()));

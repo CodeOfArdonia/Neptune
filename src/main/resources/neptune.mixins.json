@@ -10,8 +10,7 @@
     "AbstractClientPlayerMixin",
     "HeadFeatureRendererMixin",
     "HumanoidArmorLayerMixin",
-    "PlayerEntityRendererMixin",
-    "SkullBlockEntityRendererMixin"
+    "PlayerEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

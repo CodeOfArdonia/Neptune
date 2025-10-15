@@ -38,10 +38,10 @@ public abstract class AbstractClientPlayerMixin extends Player {
     @Inject(method = "getSkin", at = @At("HEAD"), cancellable = true)
     private void handleCustomSkin(CallbackInfoReturnable<PlayerSkin> cir) {
         Optional<ResourceLocation> optional = this.neptune$findTexture(this.getItemBySlot(EquipmentSlot.HEAD));
-        if (optional.isPresent()) cir.setReturnValue(with(cir.getReturnValue(), optional.get()));
+        if (optional.isPresent()) cir.setReturnValue(neptune$with(cir.getReturnValue(), optional.get()));
         else {
             optional = this.neptune$findTexture(CuriosHelper.getEquipped(this).get(CuriosHelper.Place.HAT));
-            optional.ifPresent(x -> cir.setReturnValue(with(cir.getReturnValue(), x)));
+            optional.ifPresent(x -> cir.setReturnValue(neptune$with(cir.getReturnValue(), x)));
         }
     }
 
@@ -64,7 +64,7 @@ public abstract class AbstractClientPlayerMixin extends Player {
     }
 
     @Unique
-    private static PlayerSkin with(PlayerSkin origin, ResourceLocation skin) {
+    private static PlayerSkin neptune$with(PlayerSkin origin, ResourceLocation skin) {
         return new PlayerSkin(skin, origin.textureUrl(), origin.capeTexture(), origin.elytraTexture(), origin.model(), origin.secure());
     }
 }

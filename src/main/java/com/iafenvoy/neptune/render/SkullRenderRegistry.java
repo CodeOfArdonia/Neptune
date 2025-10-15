@@ -1,23 +1,25 @@
 package com.iafenvoy.neptune.render;
 
-import com.google.common.collect.ImmutableMap;
+import net.minecraft.client.model.SkullModel;
+import net.minecraft.client.model.SkullModelBase;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.blockentity.SkullBlockRenderer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SkullBlock;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import net.minecraft.client.model.SkullModel;
-import net.minecraft.client.model.SkullModelBase;
-import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SkullBlock;
 
+@EventBusSubscriber
 public class SkullRenderRegistry {
     private static final List<SkullInfoWithModel> SKULL_INFO_WITH_MODEL = new ArrayList<>();
     private static final List<SkullInfoWithLayer> SKULL_INFO_WITH_LAYER = new ArrayList<>();
@@ -39,18 +41,16 @@ public class SkullRenderRegistry {
         return SKULL_INFO_WITH_MODEL.stream().filter(x -> x.type == type).findFirst().map(x -> x.texture).orElse(SKULL_INFO_WITH_LAYER.stream().filter(x -> x.type == type).findFirst().map(x -> x.texture).orElse(null));
     }
 
-    @ApiStatus.Internal
-    public static ImmutableMap<SkullBlock.Type, SkullModelBase> getSkulls(Map<SkullBlock.Type, ResourceLocation> textures, EntityModelSet modelLoader) {
-        ImmutableMap.Builder<SkullBlock.Type, SkullModelBase> builder = ImmutableMap.builder();
+    @SubscribeEvent
+    public static void getSkulls(EntityRenderersEvent.CreateSkullModels event) {
         for (SkullInfoWithModel info : SKULL_INFO_WITH_MODEL) {
-            textures.put(info.type, info.texture);
-            builder.put(info.type, info.model);
+            SkullBlockRenderer.SKIN_BY_TYPE.put(info.type, info.texture);
+            event.registerSkullModel(info.type, info.model);
         }
         for (SkullInfoWithLayer info : SKULL_INFO_WITH_LAYER) {
-            textures.put(info.type, info.texture);
-            builder.put(info.type, new SkullModel(modelLoader.bakeLayer(info.layer)));
+            SkullBlockRenderer.SKIN_BY_TYPE.put(info.type, info.texture);
+            event.registerSkullModel(info.type, new SkullModel(event.getEntityModelSet().bakeLayer(info.layer)));
         }
-        return builder.build();
     }
 
     @ApiStatus.Internal
