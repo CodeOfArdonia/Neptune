@@ -10,8 +10,8 @@ public final class IntervalAbility extends Ability<IntervalAbility> {
     private ToIntFunction<AbilityDataHolder> times = data -> 0;
     private ToIntFunction<AbilityDataHolder> interval = data -> 0;
 
-    public IntervalAbility(ResourceLocation id, AbilityCategory category) {
-        super(id, category);
+    public IntervalAbility(AbilityCategory category) {
+        super(category);
     }
 
     public IntervalAbility setInterval(int interval) {

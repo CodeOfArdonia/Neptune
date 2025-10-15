@@ -35,6 +35,6 @@ public final class Neptune {
 
     @SubscribeEvent
     public static void init(FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> AbilityRegistry.REGISTRY.forEach(Ability::init));
+        event.enqueueWork(() -> AbilityRegistry.ABILITY.forEach(Ability::init));
     }
 }

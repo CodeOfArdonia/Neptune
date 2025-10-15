@@ -4,30 +4,27 @@ import com.iafenvoy.neptune.ability.type.Ability;
 import com.iafenvoy.neptune.ability.type.DummyAbility;
 import com.iafenvoy.neptune.util.Color4i;
 import com.iafenvoy.neptune.util.RandomHelper;
-import java.util.*;
-import java.util.function.BooleanSupplier;
-import java.util.stream.Stream;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.*;
+import java.util.function.BooleanSupplier;
+import java.util.stream.Stream;
+
 public class AbilityCategory {
-    private static final List<AbilityCategory> CATEGORIES = new LinkedList<>();
-    private final ResourceLocation id;
     private final Color4i color;
     private final BooleanSupplier shouldDisplay;
     private final List<Ability<?>> abilities = new ArrayList<>();
     private final Map<ResourceLocation, Ability<?>> byId = new HashMap<>();
 
     public AbilityCategory(ResourceLocation id, Color4i color, BooleanSupplier shouldDisplay) {
-        this.id = id;
         this.color = color;
         this.shouldDisplay = shouldDisplay;
-        CATEGORIES.add(this);
     }
 
     public ResourceLocation getId() {
-        return this.id;
+        return AbilityRegistry.ABILITY_CATEGORY.getKey(this);
     }
 
     public Color4i getColor() {
@@ -42,7 +39,7 @@ public class AbilityCategory {
         this.abilities.add(ability);
         Ability<?> p = this.byId.put(ability.getId(), ability);
         if (p != null)
-            throw new IllegalArgumentException("Duplicated id " + p.getId() + " for ability type " + this.id + "!");
+            throw new IllegalArgumentException("Duplicated id " + p.getId() + " for ability type " + this.getId() + "!");
     }
 
     public Ability<?> getAbilityById(ResourceLocation id) {
@@ -62,18 +59,10 @@ public class AbilityCategory {
     }
 
     public static Optional<AbilityCategory> byId(ResourceLocation id) {
-        return CATEGORIES.stream().filter(x -> x.getId().equals(id)).findFirst();
+        return AbilityRegistry.ABILITY_CATEGORY.getOptional(id);
     }
 
     public boolean shouldDisplay() {
         return this.shouldDisplay.getAsBoolean();
-    }
-
-    public static List<AbilityCategory> values() {
-        return CATEGORIES;
-    }
-
-    public static Stream<ResourceLocation> streamIds() {
-        return CATEGORIES.stream().map(AbilityCategory::getId);
     }
 }

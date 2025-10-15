@@ -4,6 +4,7 @@ import com.iafenvoy.neptune.Neptune;
 import com.iafenvoy.neptune.ability.AbilityCategory;
 import com.iafenvoy.neptune.ability.AbilityData;
 import com.iafenvoy.neptune.ability.AbilityDataHolder;
+import com.iafenvoy.neptune.ability.AbilityRegistry;
 import com.iafenvoy.neptune.network.payload.AbilityStateChangePayload;
 import com.iafenvoy.neptune.object.SoundUtil;
 import net.minecraft.resources.ResourceLocation;
@@ -19,7 +20,6 @@ import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 
 public sealed abstract class Ability<T extends Ability<T>> permits DelayAbility, DummyAbility, InstantAbility, IntervalAbility, PersistAbility {
-    private final ResourceLocation id;
     private final AbilityCategory category;
     private Consumer<Ability<?>> init = self -> {
     };
@@ -31,15 +31,14 @@ public sealed abstract class Ability<T extends Ability<T>> permits DelayAbility,
     protected Supplier<SoundEvent> applySound;
     private boolean experimental = false;
 
-    public Ability(ResourceLocation id, AbilityCategory category) {
-        this.id = id;
+    public Ability(AbilityCategory category) {
         this.category = category;
         if (category != null)
             category.registerAbility(this);
     }
 
     public ResourceLocation getId() {
-        return this.id;
+        return AbilityRegistry.ABILITY.getKey(this);
     }
 
     public AbilityCategory getCategory() {
@@ -49,7 +48,7 @@ public sealed abstract class Ability<T extends Ability<T>> permits DelayAbility,
     public ResourceLocation getIconTexture() {
         if (this.isEmpty())
             return ResourceLocation.tryBuild(ResourceLocation.DEFAULT_NAMESPACE, "textures/item/barrier.png");
-        return ResourceLocation.tryBuild(this.id.getNamespace(), "textures/ability/" + this.id.getPath() + ".png");
+        return ResourceLocation.tryBuild(this.getId().getNamespace(), "textures/ability/" + this.getId().getPath() + ".png");
     }
 
     public T onInit(Consumer<Ability<?>> init) {
@@ -139,15 +138,15 @@ public sealed abstract class Ability<T extends Ability<T>> permits DelayAbility,
 
     public void sendApplyMessage(LivingEntity living, boolean enable) {
         if (living instanceof ServerPlayer serverPlayer)
-            PacketDistributor.sendToPlayer(serverPlayer, new AbilityStateChangePayload(living.getUUID(), this.id, enable));
+            PacketDistributor.sendToPlayer(serverPlayer, new AbilityStateChangePayload(living.getUUID(), this.getId(), enable));
     }
 
     public boolean isEmpty() {
-        return this == DummyAbility.EMPTY || this.id == null || this.id.getPath().isEmpty();
+        return this == DummyAbility.EMPTY || this.getId() == null || this.getId().getPath().isEmpty();
     }
 
     public String getTranslateKey() {
-        return this.id.toLanguageKey("ability." + Neptune.MOD_ID);
+        return this.getId().toLanguageKey("ability." + Neptune.MOD_ID);
     }
 
     protected abstract boolean applyInternal(AbilityDataHolder holder);

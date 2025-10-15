@@ -80,7 +80,7 @@ public class AbilityKeybindings {
         Level world = Minecraft.getInstance().level;
         assert world != null;
         Player player = world.getPlayerByUUID(payload.player());
-        Ability<?> ability = AbilityRegistry.REGISTRY.get(payload.ability());
+        Ability<?> ability = AbilityRegistry.ABILITY.get(payload.ability());
         boolean enable = payload.enable();
         if (!ability.isEmpty()) NeoForge.EVENT_BUS.post(new AbilityStateChangeEvent(player, ability, enable));
     }

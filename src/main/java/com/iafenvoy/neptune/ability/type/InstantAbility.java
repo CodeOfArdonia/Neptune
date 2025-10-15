@@ -5,8 +5,8 @@ import com.iafenvoy.neptune.ability.AbilityDataHolder;
 import net.minecraft.resources.ResourceLocation;
 
 public final class InstantAbility extends Ability<InstantAbility> {
-    public InstantAbility(ResourceLocation id, AbilityCategory category) {
-        super(id, category);
+    public InstantAbility(AbilityCategory category) {
+        super( category);
     }
 
     @Override

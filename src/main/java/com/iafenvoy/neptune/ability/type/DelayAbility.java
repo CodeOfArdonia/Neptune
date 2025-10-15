@@ -3,13 +3,12 @@ package com.iafenvoy.neptune.ability.type;
 import com.iafenvoy.neptune.ability.AbilityCategory;
 import com.iafenvoy.neptune.ability.AbilityDataHolder;
 import com.iafenvoy.neptune.util.Timeout;
-import net.minecraft.resources.ResourceLocation;
 
 public final class DelayAbility extends Ability<DelayAbility> {
     private int delay = 0;
 
-    public DelayAbility(ResourceLocation id, AbilityCategory category) {
-        super(id, category);
+    public DelayAbility(AbilityCategory category) {
+        super(category);
     }
 
     public DelayAbility setDelay(int delay) {

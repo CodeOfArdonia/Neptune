@@ -4,22 +4,26 @@ import com.iafenvoy.neptune.ability.AbilityCategory;
 import com.iafenvoy.neptune.ability.AbilityDataHolder;
 import com.iafenvoy.neptune.ability.AbilityRegistry;
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
+@EventBusSubscriber
 public non-sealed abstract class DummyAbility extends Ability<DummyAbility> {
-    public static final DummyAbility EMPTY = new DummyAbility(ResourceLocation.tryParse(""), null) {
+    public static final DummyAbility EMPTY = new DummyAbility(null) {
         @Override
         protected boolean applyInternal(AbilityDataHolder holder) {
             return true;
         }
     };
 
-    static {
-        Registry.register(AbilityRegistry.REGISTRY, "empty", EMPTY);
+    @SubscribeEvent
+    public static void registerDefaulted(FMLCommonSetupEvent event) {
+        Registry.register(AbilityRegistry.ABILITY, "empty", EMPTY);
     }
 
-    public DummyAbility(ResourceLocation id, AbilityCategory category) {
-        super(id, category);
+    public DummyAbility(AbilityCategory category) {
+        super(category);
     }
 
     @Override

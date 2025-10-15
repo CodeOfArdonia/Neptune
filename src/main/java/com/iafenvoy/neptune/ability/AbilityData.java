@@ -34,7 +34,7 @@ public class AbilityData implements Serializable, Tickable {
     private boolean dirty = false;
 
     public AbilityData() {
-        for (AbilityCategory category : AbilityCategory.values())
+        for (AbilityCategory category : AbilityRegistry.ABILITY_CATEGORY)
             this.createSingle(category);
     }
 
@@ -178,7 +178,7 @@ public class AbilityData implements Serializable, Tickable {
             this.enabled = nbt.getBoolean("enabled");
             this.primaryCooldown = nbt.getInt("primaryCooldown");
             this.secondaryCooldown = nbt.getInt("secondaryCooldown");
-            this.activeAbility = AbilityRegistry.REGISTRY.get(ResourceLocation.tryParse(nbt.getString("activeAbility")));
+            this.activeAbility = AbilityRegistry.ABILITY.get(ResourceLocation.tryParse(nbt.getString("activeAbility")));
         }
 
         @Override
