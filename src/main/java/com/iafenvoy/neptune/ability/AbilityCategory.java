@@ -2,6 +2,7 @@ package com.iafenvoy.neptune.ability;
 
 import com.iafenvoy.neptune.ability.type.Ability;
 import com.iafenvoy.neptune.ability.type.DummyAbility;
+import com.iafenvoy.neptune.registry.NeptuneRegistries;
 import com.iafenvoy.neptune.util.Color4i;
 import com.iafenvoy.neptune.util.RandomHelper;
 import net.minecraft.network.chat.MutableComponent;
@@ -24,7 +25,7 @@ public class AbilityCategory {
     }
 
     public ResourceLocation getId() {
-        return AbilityRegistry.ABILITY_CATEGORY.getKey(this);
+        return NeptuneRegistries.ABILITY_CATEGORY.getKey(this);
     }
 
     public Color4i getColor() {
@@ -59,7 +60,7 @@ public class AbilityCategory {
     }
 
     public static Optional<AbilityCategory> byId(ResourceLocation id) {
-        return AbilityRegistry.ABILITY_CATEGORY.getOptional(id);
+        return NeptuneRegistries.ABILITY_CATEGORY.getOptional(id);
     }
 
     public boolean shouldDisplay() {

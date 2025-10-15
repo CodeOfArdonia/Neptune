@@ -3,7 +3,7 @@ package com.iafenvoy.neptune.screen;
 import com.iafenvoy.neptune.ability.AbilityCategory;
 import com.iafenvoy.neptune.ability.AbilityData;
 import com.iafenvoy.neptune.ability.AbilityKeybindings;
-import com.iafenvoy.neptune.ability.AbilityRegistry;
+import com.iafenvoy.neptune.registry.NeptuneRegistries;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -24,7 +24,7 @@ public class AbilityHudRenderer {
         int width = context.guiWidth();
         int height = context.guiHeight();
         int x = width / 2 + 120, y = height - 22, i = 0;
-        for (AbilityCategory category : AbilityRegistry.ABILITY_CATEGORY)
+        for (AbilityCategory category : NeptuneRegistries.ABILITY_CATEGORY)
             if (category.shouldDisplay() && data.isEnabled(category)) {
                 renderOne(x + i * 21, y, context, data.get(category));
                 i++;

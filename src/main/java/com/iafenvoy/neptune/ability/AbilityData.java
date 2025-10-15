@@ -4,6 +4,7 @@ import com.iafenvoy.neptune.ability.type.Ability;
 import com.iafenvoy.neptune.ability.type.DummyAbility;
 import com.iafenvoy.neptune.ability.type.PersistAbility;
 import com.iafenvoy.neptune.registry.NeptuneAttachments;
+import com.iafenvoy.neptune.registry.NeptuneRegistries;
 import com.iafenvoy.neptune.util.Serializable;
 import com.iafenvoy.neptune.util.Tickable;
 import com.mojang.serialization.Codec;
@@ -34,7 +35,7 @@ public class AbilityData implements Serializable, Tickable {
     private boolean dirty = false;
 
     public AbilityData() {
-        for (AbilityCategory category : AbilityRegistry.ABILITY_CATEGORY)
+        for (AbilityCategory category : NeptuneRegistries.ABILITY_CATEGORY)
             this.createSingle(category);
     }
 
@@ -178,7 +179,7 @@ public class AbilityData implements Serializable, Tickable {
             this.enabled = nbt.getBoolean("enabled");
             this.primaryCooldown = nbt.getInt("primaryCooldown");
             this.secondaryCooldown = nbt.getInt("secondaryCooldown");
-            this.activeAbility = AbilityRegistry.ABILITY.get(ResourceLocation.tryParse(nbt.getString("activeAbility")));
+            this.activeAbility = NeptuneRegistries.ABILITY.get(ResourceLocation.tryParse(nbt.getString("activeAbility")));
         }
 
         @Override

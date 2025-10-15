@@ -1,6 +1,7 @@
-package com.iafenvoy.neptune.ability;
+package com.iafenvoy.neptune.registry;
 
 import com.iafenvoy.neptune.Neptune;
+import com.iafenvoy.neptune.ability.AbilityCategory;
 import com.iafenvoy.neptune.ability.type.Ability;
 import com.mojang.serialization.Lifecycle;
 import net.minecraft.core.DefaultedMappedRegistry;
@@ -9,11 +10,21 @@ import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.registries.NewRegistryEvent;
 
-public final class AbilityRegistry {
+@EventBusSubscriber
+public class NeptuneRegistries {
     public static final ResourceKey<Registry<Ability<?>>> ABILITY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(Neptune.MOD_ID, "ability"));
     public static final DefaultedRegistry<Ability<?>> ABILITY = new DefaultedMappedRegistry<>("empty", ABILITY_KEY, Lifecycle.stable(), false);
 
     public static final ResourceKey<Registry<AbilityCategory>> ABILITY_CATEGORY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(Neptune.MOD_ID, "ability_category"));
     public static final Registry<AbilityCategory> ABILITY_CATEGORY = new MappedRegistry<>(ABILITY_CATEGORY_KEY, Lifecycle.stable(), false);
+
+    @SubscribeEvent
+    public static void newRegistries(NewRegistryEvent event) {
+        event.register(ABILITY);
+        event.register(ABILITY_CATEGORY);
+    }
 }

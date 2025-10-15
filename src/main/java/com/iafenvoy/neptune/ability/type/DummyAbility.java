@@ -2,7 +2,7 @@ package com.iafenvoy.neptune.ability.type;
 
 import com.iafenvoy.neptune.ability.AbilityCategory;
 import com.iafenvoy.neptune.ability.AbilityDataHolder;
-import com.iafenvoy.neptune.ability.AbilityRegistry;
+import com.iafenvoy.neptune.registry.NeptuneRegistries;
 import net.minecraft.core.Registry;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -19,7 +19,7 @@ public non-sealed abstract class DummyAbility extends Ability<DummyAbility> {
 
     @SubscribeEvent
     public static void registerDefaulted(FMLCommonSetupEvent event) {
-        Registry.register(AbilityRegistry.ABILITY, "empty", EMPTY);
+        Registry.register(NeptuneRegistries.ABILITY, "empty", EMPTY);
     }
 
     public DummyAbility(AbilityCategory category) {

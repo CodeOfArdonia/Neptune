@@ -4,9 +4,9 @@ import com.iafenvoy.neptune.Neptune;
 import com.iafenvoy.neptune.ability.AbilityCategory;
 import com.iafenvoy.neptune.ability.AbilityData;
 import com.iafenvoy.neptune.ability.AbilityDataHolder;
-import com.iafenvoy.neptune.ability.AbilityRegistry;
 import com.iafenvoy.neptune.network.payload.AbilityStateChangePayload;
 import com.iafenvoy.neptune.object.SoundUtil;
+import com.iafenvoy.neptune.registry.NeptuneRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -38,7 +38,7 @@ public sealed abstract class Ability<T extends Ability<T>> permits DelayAbility,
     }
 
     public ResourceLocation getId() {
-        return AbilityRegistry.ABILITY.getKey(this);
+        return NeptuneRegistries.ABILITY.getKey(this);
     }
 
     public AbilityCategory getCategory() {

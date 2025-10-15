@@ -1,6 +1,5 @@
 package com.iafenvoy.neptune;
 
-import com.iafenvoy.neptune.ability.AbilityRegistry;
 import com.iafenvoy.neptune.ability.type.Ability;
 import com.iafenvoy.neptune.registry.*;
 import com.mojang.logging.LogUtils;
@@ -27,6 +26,7 @@ public final class Neptune {
         NeptuneAttachments.REGISTRY.register(bus);
         NeptuneBlocks.REGISTRY.register(bus);
         NeptuneBlockEntities.REGISTRY.register(bus);
+        NeptuneDataComponents.REGISTRY.register(bus);
         NeptuneItems.REGISTRY.register(bus);
         NeptuneRecipes.TYPE_REGISTRY.register(bus);
         NeptuneRecipes.SERIALIZER_REGISTRY.register(bus);
@@ -35,6 +35,6 @@ public final class Neptune {
 
     @SubscribeEvent
     public static void init(FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> AbilityRegistry.ABILITY.forEach(Ability::init));
+        event.enqueueWork(() -> NeptuneRegistries.ABILITY.forEach(Ability::init));
     }
 }
