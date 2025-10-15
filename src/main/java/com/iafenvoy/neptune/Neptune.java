@@ -1,6 +1,7 @@
 package com.iafenvoy.neptune;
 
-import com.iafenvoy.neptune.ability.type.AbstractAbility;
+import com.iafenvoy.neptune.ability.AbilityRegistry;
+import com.iafenvoy.neptune.ability.type.Ability;
 import com.iafenvoy.neptune.registry.*;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
@@ -34,6 +35,6 @@ public final class Neptune {
 
     @SubscribeEvent
     public static void init(FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> AbstractAbility.ABILITIES.forEach(AbstractAbility::init));
+        event.enqueueWork(() -> AbilityRegistry.REGISTRY.forEach(Ability::init));
     }
 }

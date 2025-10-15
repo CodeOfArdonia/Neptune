@@ -6,7 +6,7 @@ import com.iafenvoy.neptune.util.Timeout;
 import java.util.function.ToIntFunction;
 import net.minecraft.resources.ResourceLocation;
 
-public final class IntervalAbility extends AbstractAbility<IntervalAbility> {
+public final class IntervalAbility extends Ability<IntervalAbility> {
     private ToIntFunction<AbilityDataHolder> times = data -> 0;
     private ToIntFunction<AbilityDataHolder> interval = data -> 0;
 

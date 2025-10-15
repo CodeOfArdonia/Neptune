@@ -1,6 +1,6 @@
 package com.iafenvoy.neptune.ability;
 
-import com.iafenvoy.neptune.ability.type.AbstractAbility;
+import com.iafenvoy.neptune.ability.type.Ability;
 import com.iafenvoy.neptune.event.AbilityStateChangeEvent;
 import com.iafenvoy.neptune.network.payload.AbilityKeybindingSyncPayload;
 import com.iafenvoy.neptune.network.payload.AbilityStateChangePayload;
@@ -80,7 +80,7 @@ public class AbilityKeybindings {
         Level world = Minecraft.getInstance().level;
         assert world != null;
         Player player = world.getPlayerByUUID(payload.player());
-        AbstractAbility<?> ability = AbstractAbility.byId(payload.ability());
+        Ability<?> ability = AbilityRegistry.REGISTRY.get(payload.ability());
         boolean enable = payload.enable();
         if (!ability.isEmpty()) NeoForge.EVENT_BUS.post(new AbilityStateChangeEvent(player, ability, enable));
     }

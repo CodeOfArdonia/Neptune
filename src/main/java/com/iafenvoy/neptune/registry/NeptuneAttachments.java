@@ -2,7 +2,6 @@ package com.iafenvoy.neptune.registry;
 
 import com.iafenvoy.neptune.Neptune;
 import com.iafenvoy.neptune.ability.AbilityData;
-import com.iafenvoy.neptune.util.Tickable;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -25,7 +24,8 @@ public class NeptuneAttachments {
             tickAndSync(ABILITY, living);
     }
 
-    private static <T extends LivingEntity, A extends Tickable> void tickAndSync(Supplier<AttachmentType<A>> type, T entity) {
+    //FIXME
+    private static <T extends LivingEntity, A extends AbilityData> void tickAndSync(Supplier<AttachmentType<A>> type, T entity) {
         A attachment = entity.getData(type);
         attachment.tick(entity);
         if (attachment.isDirty()) entity.syncData(type);

@@ -2,7 +2,7 @@ package com.iafenvoy.neptune.ability.command;
 
 import com.iafenvoy.neptune.ability.AbilityCategory;
 import com.iafenvoy.neptune.ability.AbilityData;
-import com.iafenvoy.neptune.ability.type.AbstractAbility;
+import com.iafenvoy.neptune.ability.type.Ability;
 import com.iafenvoy.neptune.ability.type.DummyAbility;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -70,7 +70,7 @@ public final class AbilityCommand {
         Optional<AbilityCategory> optional = AbilityCategory.byId(ResourceLocationArgument.getId(context, "category"));
         if (optional.isEmpty()) throw UNKNOWN_CATEGORY.create();
         AbilityCategory category = optional.get();
-        AbstractAbility<?> ability = category.getAbilityById(ResourceLocationArgument.getId(context, "ability"));
+        Ability<?> ability = category.getAbilityById(ResourceLocationArgument.getId(context, "ability"));
         if (ability == DummyAbility.EMPTY) throw UNKNOWN_ABILITY.create();
         for (ServerPlayer player : players)
             AbilityData.get(player).get(category).setActiveAbility(player, ability);

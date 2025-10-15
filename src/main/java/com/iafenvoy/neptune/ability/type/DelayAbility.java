@@ -5,7 +5,7 @@ import com.iafenvoy.neptune.ability.AbilityDataHolder;
 import com.iafenvoy.neptune.util.Timeout;
 import net.minecraft.resources.ResourceLocation;
 
-public final class DelayAbility extends AbstractAbility<DelayAbility> {
+public final class DelayAbility extends Ability<DelayAbility> {
     private int delay = 0;
 
     public DelayAbility(ResourceLocation id, AbilityCategory category) {

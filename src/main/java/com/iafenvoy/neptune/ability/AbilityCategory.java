@@ -1,6 +1,6 @@
 package com.iafenvoy.neptune.ability;
 
-import com.iafenvoy.neptune.ability.type.AbstractAbility;
+import com.iafenvoy.neptune.ability.type.Ability;
 import com.iafenvoy.neptune.ability.type.DummyAbility;
 import com.iafenvoy.neptune.util.Color4i;
 import com.iafenvoy.neptune.util.RandomHelper;
@@ -16,8 +16,8 @@ public class AbilityCategory {
     private final ResourceLocation id;
     private final Color4i color;
     private final BooleanSupplier shouldDisplay;
-    private final List<AbstractAbility<?>> abilities = new ArrayList<>();
-    private final Map<ResourceLocation, AbstractAbility<?>> byId = new HashMap<>();
+    private final List<Ability<?>> abilities = new ArrayList<>();
+    private final Map<ResourceLocation, Ability<?>> byId = new HashMap<>();
 
     public AbilityCategory(ResourceLocation id, Color4i color, BooleanSupplier shouldDisplay) {
         this.id = id;
@@ -38,27 +38,27 @@ public class AbilityCategory {
         return text.withStyle(Style.EMPTY.withColor(this.getColor().getIntValue()));
     }
 
-    public void registerAbility(AbstractAbility<?> ability) {
+    public void registerAbility(Ability<?> ability) {
         this.abilities.add(ability);
-        AbstractAbility<?> p = this.byId.put(ability.getId(), ability);
+        Ability<?> p = this.byId.put(ability.getId(), ability);
         if (p != null)
             throw new IllegalArgumentException("Duplicated id " + p.getId() + " for ability type " + this.id + "!");
     }
 
-    public AbstractAbility<?> getAbilityById(ResourceLocation id) {
+    public Ability<?> getAbilityById(ResourceLocation id) {
         return this.abilities.stream().filter(x -> x.getId().equals(id)).findFirst().orElse(DummyAbility.EMPTY);
     }
 
-    public AbstractAbility<?> randomOne() {
+    public Ability<?> randomOne() {
         return RandomHelper.randomOne(this.abilities);
     }
 
-    public List<AbstractAbility<?>> getAbilities() {
+    public List<Ability<?>> getAbilities() {
         return this.abilities;
     }
 
     public Stream<ResourceLocation> streamAbilityIds() {
-        return this.abilities.stream().map(AbstractAbility::getId);
+        return this.abilities.stream().map(Ability::getId);
     }
 
     public static Optional<AbilityCategory> byId(ResourceLocation id) {

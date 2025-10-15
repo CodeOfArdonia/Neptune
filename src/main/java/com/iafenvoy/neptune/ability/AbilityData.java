@@ -1,6 +1,6 @@
 package com.iafenvoy.neptune.ability;
 
-import com.iafenvoy.neptune.ability.type.AbstractAbility;
+import com.iafenvoy.neptune.ability.type.Ability;
 import com.iafenvoy.neptune.ability.type.DummyAbility;
 import com.iafenvoy.neptune.ability.type.PersistAbility;
 import com.iafenvoy.neptune.registry.NeptuneAttachments;
@@ -75,7 +75,6 @@ public class AbilityData implements Serializable, Tickable {
                     tickable.tick(living);
     }
 
-    @Override
     public boolean isDirty() {
         boolean dirty = this.dirty;
         this.dirty = false;
@@ -124,14 +123,14 @@ public class AbilityData implements Serializable, Tickable {
         this.components.remove(id);
     }
 
-    public boolean abilityEnabled(AbstractAbility<?>... abilities) {
-        for (AbstractAbility<?> ability : abilities)
+    public boolean abilityEnabled(Ability<?>... abilities) {
+        for (Ability<?> ability : abilities)
             if (this.abilityEnabled(ability.getCategory(), ability))
                 return true;
         return false;
     }
 
-    public boolean abilityEnabled(AbilityCategory category, AbstractAbility<?> ability) {
+    public boolean abilityEnabled(AbilityCategory category, Ability<?> ability) {
         SingleAbilityData data = this.get(category);
         return data.hasAbility() && data.getActiveAbility() == ability && data.isEnabled();
     }
@@ -156,7 +155,7 @@ public class AbilityData implements Serializable, Tickable {
     public static class SingleAbilityData implements Serializable, Tickable {
         private final AbilityData parent;
         private final AbilityCategory type;
-        private AbstractAbility<?> activeAbility = DummyAbility.EMPTY;
+        private Ability<?> activeAbility = DummyAbility.EMPTY;
         private boolean enabled = false;
         private int primaryCooldown = 0;
         private int secondaryCooldown = 0;
@@ -179,7 +178,7 @@ public class AbilityData implements Serializable, Tickable {
             this.enabled = nbt.getBoolean("enabled");
             this.primaryCooldown = nbt.getInt("primaryCooldown");
             this.secondaryCooldown = nbt.getInt("secondaryCooldown");
-            this.activeAbility = AbstractAbility.byId(ResourceLocation.tryParse(nbt.getString("activeAbility")));
+            this.activeAbility = AbilityRegistry.REGISTRY.get(ResourceLocation.tryParse(nbt.getString("activeAbility")));
         }
 
         @Override
@@ -196,11 +195,6 @@ public class AbilityData implements Serializable, Tickable {
                 if (persistAbility.tick(this, living)) this.disable(living);
                 this.parent.markDirty();
             }
-        }
-
-        @Override
-        public boolean isDirty() {
-            return false;//Never call
         }
 
         public void onKeyPressed(Player player) {
@@ -253,11 +247,11 @@ public class AbilityData implements Serializable, Tickable {
             this.setEnabled(living, false);
         }
 
-        public AbstractAbility<?> getActiveAbility() {
+        public Ability<?> getActiveAbility() {
             return this.activeAbility;
         }
 
-        public void setActiveAbility(LivingEntity living, AbstractAbility<?> activeAbility) {
+        public void setActiveAbility(LivingEntity living, Ability<?> activeAbility) {
             if (!this.activeAbility.isEmpty() && this.activeAbility != activeAbility)
                 this.disable(living);
             this.activeAbility = activeAbility;

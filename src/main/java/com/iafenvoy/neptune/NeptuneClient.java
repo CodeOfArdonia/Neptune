@@ -1,6 +1,6 @@
 package com.iafenvoy.neptune;
 
-import com.iafenvoy.neptune.registry.NeptuneBlocks;
+import com.iafenvoy.neptune.registry.NeptuneItems;
 import com.iafenvoy.neptune.registry.NeptuneScreenHandlers;
 import com.iafenvoy.neptune.screen.AbilityHudRenderer;
 import com.iafenvoy.neptune.screen.gui.WeaponDeskScreen;
@@ -41,6 +41,6 @@ public final class NeptuneClient {
     @SubscribeEvent
     public static void registerCreativeTabItems(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
-            event.accept(NeptuneBlocks.WEAPON_DESK.get(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.accept(NeptuneItems.WEAPON_DESK.get(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
     }
 }

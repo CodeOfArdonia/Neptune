@@ -4,7 +4,7 @@ import com.iafenvoy.neptune.ability.AbilityCategory;
 import com.iafenvoy.neptune.ability.AbilityDataHolder;
 import net.minecraft.resources.ResourceLocation;
 
-public final class InstantAbility extends AbstractAbility<InstantAbility> {
+public final class InstantAbility extends Ability<InstantAbility> {
     public InstantAbility(ResourceLocation id, AbilityCategory category) {
         super(id, category);
     }

@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public final class PersistAbility extends AbstractAbility<PersistAbility> {
+public final class PersistAbility extends Ability<PersistAbility> {
     private Consumer<AbilityDataHolder> unapply = data -> {
     }, tick = data -> {
     };

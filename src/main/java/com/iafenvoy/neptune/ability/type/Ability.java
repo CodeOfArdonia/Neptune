@@ -13,21 +13,15 @@ import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 
-public sealed abstract class AbstractAbility<T extends AbstractAbility<T>> permits DelayAbility, DummyAbility, InstantAbility, IntervalAbility, PersistAbility {
-    public static final List<AbstractAbility<?>> ABILITIES = new ArrayList<>();
-    private static final Map<ResourceLocation, AbstractAbility<?>> BY_ID = new HashMap<>();
+public sealed abstract class Ability<T extends Ability<T>> permits DelayAbility, DummyAbility, InstantAbility, IntervalAbility, PersistAbility {
     private final ResourceLocation id;
     private final AbilityCategory category;
-    private Consumer<AbstractAbility<?>> init = self -> {
+    private Consumer<Ability<?>> init = self -> {
     };
     private ToIntFunction<AbilityDataHolder> primaryCooldownSupplier = data -> 0, secondaryCooldownSupplier = data -> 0;
     private ToDoubleFunction<AbilityDataHolder> exhaustion = data -> 0;
@@ -37,14 +31,11 @@ public sealed abstract class AbstractAbility<T extends AbstractAbility<T>> permi
     protected Supplier<SoundEvent> applySound;
     private boolean experimental = false;
 
-    public AbstractAbility(ResourceLocation id, AbilityCategory category) {
+    public Ability(ResourceLocation id, AbilityCategory category) {
         this.id = id;
         this.category = category;
-        if (category != null) {
-            ABILITIES.add(this);
-            BY_ID.put(id, this);
+        if (category != null)
             category.registerAbility(this);
-        }
     }
 
     public ResourceLocation getId() {
@@ -61,7 +52,7 @@ public sealed abstract class AbstractAbility<T extends AbstractAbility<T>> permi
         return ResourceLocation.tryBuild(this.id.getNamespace(), "textures/ability/" + this.id.getPath() + ".png");
     }
 
-    public T onInit(Consumer<AbstractAbility<?>> init) {
+    public T onInit(Consumer<Ability<?>> init) {
         this.init = init;
         return this.get();
     }
@@ -168,10 +159,6 @@ public sealed abstract class AbstractAbility<T extends AbstractAbility<T>> permi
     protected static void playSound(AbilityDataHolder holder, @Nullable Supplier<SoundEvent> sound) {
         if (sound != null)
             SoundUtil.playSound(holder.getWorld(), holder.getEntity().getX(), holder.getEntity().getY(), holder.getEntity().getZ(), sound.get().getLocation(), 0.5f, 1);
-    }
-
-    public static AbstractAbility<?> byId(ResourceLocation id) {
-        return BY_ID.getOrDefault(id, DummyAbility.EMPTY);
     }
 
     public T experimental() {
