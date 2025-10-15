@@ -92,7 +92,7 @@ public record WeaponDeskRecipe(IngredientGroup material, IngredientGroup stick,
     public record IngredientGroup(Ingredient ingredient, int count) {
         public static final Codec<IngredientGroup> CODEC = RecordCodecBuilder.create(i -> i.group(
                 Ingredient.MAP_CODEC_NONEMPTY.forGetter(IngredientGroup::ingredient),
-                Codec.INT.fieldOf("count").forGetter(IngredientGroup::count)
+                Codec.INT.optionalFieldOf("count", 1).forGetter(IngredientGroup::count)
         ).apply(i, IngredientGroup::new));
         public static final StreamCodec<RegistryFriendlyByteBuf, IngredientGroup> STREAM_CODEC = StreamCodec.composite(
                 Ingredient.CONTENTS_STREAM_CODEC, IngredientGroup::ingredient,
