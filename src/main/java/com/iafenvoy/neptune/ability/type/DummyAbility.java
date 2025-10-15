@@ -3,10 +3,10 @@ package com.iafenvoy.neptune.ability.type;
 import com.iafenvoy.neptune.ability.AbilityCategory;
 import com.iafenvoy.neptune.ability.AbilityDataHolder;
 import com.iafenvoy.neptune.registry.NeptuneRegistries;
-import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
 
 @EventBusSubscriber
 public non-sealed abstract class DummyAbility extends Ability<DummyAbility> {
@@ -18,8 +18,9 @@ public non-sealed abstract class DummyAbility extends Ability<DummyAbility> {
     };
 
     @SubscribeEvent
-    public static void registerDefaulted(FMLCommonSetupEvent event) {
-        Registry.register(NeptuneRegistries.ABILITY, "empty", EMPTY);
+    public static void registerDefaulted(RegisterEvent event) {
+        if (event.getRegistryKey() == NeptuneRegistries.ABILITY_KEY)
+            event.register(NeptuneRegistries.ABILITY_KEY, ResourceLocation.withDefaultNamespace("empty"), () -> EMPTY);
     }
 
     public DummyAbility(AbilityCategory category) {
