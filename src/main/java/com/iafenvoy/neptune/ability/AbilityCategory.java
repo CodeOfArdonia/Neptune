@@ -18,7 +18,7 @@ public class AbilityCategory {
     private final List<Ability<?>> abilities = new ArrayList<>();
     private final Map<ResourceLocation, Ability<?>> byId = new HashMap<>();
 
-    public AbilityCategory(ResourceLocation id, Color4i color, BooleanSupplier shouldDisplay) {
+    public AbilityCategory(Color4i color, BooleanSupplier shouldDisplay) {
         this.color = color;
         this.shouldDisplay = shouldDisplay;
     }
