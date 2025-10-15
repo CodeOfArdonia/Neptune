@@ -1,5 +1,6 @@
 package com.iafenvoy.neptune;
 
+import com.iafenvoy.neptune.registry.NeptuneDataComponents;
 import com.iafenvoy.neptune.registry.NeptuneItems;
 import com.iafenvoy.neptune.registry.NeptuneScreenHandlers;
 import com.iafenvoy.neptune.screen.AbilityHudRenderer;
@@ -7,6 +8,8 @@ import com.iafenvoy.neptune.screen.gui.WeaponDeskScreen;
 import com.iafenvoy.neptune.trail.TrailManager;
 import com.iafenvoy.neptune.trail.storage.ClientTrailStorage;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.api.distmarker.Dist;
@@ -30,6 +33,7 @@ public final class NeptuneClient {
     public static void process(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             TrailManager.PROXY = ClientTrailStorage.INSTANCE;
+            ItemProperties.registerGeneric(ResourceLocation.fromNamespaceAndPath(Neptune.MOD_ID, "active"), (stack, level, living, i) -> stack.getOrDefault(NeptuneDataComponents.ACTIVE, false) ? 1 : 0);
         });
     }
 
