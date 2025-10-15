@@ -11,23 +11,17 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
-import java.util.function.Supplier;
-
-public class NeptuneAttachments {
+public final class NeptuneAttachments {
     public static final DeferredRegister<AttachmentType<?>> REGISTRY = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, Neptune.MOD_ID);
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<AbilityData>> ABILITY = REGISTRY.register("ability", () -> AttachmentType.builder(AbilityData::new).serialize(AbilityData.CODEC).sync(ByteBufCodecs.fromCodecWithRegistries(AbilityData.CODEC)).copyOnDeath().build());
 
     @SubscribeEvent
     public static void onLivingTick(EntityTickEvent.Post event) {
-        if (event.getEntity() instanceof LivingEntity living)
-            tickAndSync(ABILITY, living);
-    }
-
-    //FIXME
-    private static <T extends LivingEntity, A extends AbilityData> void tickAndSync(Supplier<AttachmentType<A>> type, T entity) {
-        A attachment = entity.getData(type);
-        attachment.tick(entity);
-        if (attachment.isDirty()) entity.syncData(type);
+        if (event.getEntity() instanceof LivingEntity living) {
+            AbilityData data = living.getData(ABILITY);
+            data.tick(living);
+            if (data.isDirty()) living.syncData(ABILITY);
+        }
     }
 }

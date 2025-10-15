@@ -1,9 +1,10 @@
 package com.iafenvoy.neptune.util;
 
-import java.util.function.Supplier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+
+import java.util.function.Supplier;
 
 public class EntityBuildHelper {
     public static final Dimension PLAYER = new Dimension(0.6F, 1.8F);

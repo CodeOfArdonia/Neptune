@@ -2,11 +2,6 @@ package com.iafenvoy.neptune.item.block.entity;
 
 import com.iafenvoy.neptune.registry.NeptuneBlockEntities;
 import com.iafenvoy.neptune.screen.handler.WeaponDeskScreenHandler;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Optional;
-import java.util.function.BiFunction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
@@ -17,6 +12,11 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
+import java.util.function.BiFunction;
 
 public class WeaponDeskBlockEntity extends BlockEntity implements MenuProvider {
     public WeaponDeskBlockEntity(BlockPos pos, BlockState state) {

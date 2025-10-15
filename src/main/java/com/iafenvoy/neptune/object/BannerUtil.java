@@ -11,13 +11,19 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 
+import java.util.function.Function;
+
 public class BannerUtil {
-    @Deprecated
+    @SafeVarargs
+    public static Function<HolderGetter<BannerPattern>, ItemStack> lazy(String translateKey, Item baseItem, Pair<ResourceKey<BannerPattern>, DyeColor>... patterns) {
+        return getter -> create(translateKey, baseItem, getter, patterns);
+    }
+
     @SafeVarargs
     public static ItemStack create(String translateKey, Item baseItem, HolderGetter<BannerPattern> getter, Pair<ResourceKey<BannerPattern>, DyeColor>... patterns) {
         BannerPatternLayers.Builder builder = new BannerPatternLayers.Builder();
         for (Pair<ResourceKey<BannerPattern>, DyeColor> pattern : patterns)
-            builder.addIfRegistered(getter, pattern.getFirst(), pattern.getSecond());
+            builder.add(getter.getOrThrow(pattern.getFirst()), pattern.getSecond());
         ItemStack stack = new ItemStack(baseItem);
         stack.set(DataComponents.CUSTOM_NAME, Component.translatable(translateKey));
         stack.set(DataComponents.BANNER_PATTERNS, builder.build());

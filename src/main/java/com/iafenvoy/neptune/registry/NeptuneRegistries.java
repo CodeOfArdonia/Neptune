@@ -15,7 +15,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
 
 @EventBusSubscriber
-public class NeptuneRegistries {
+public final class NeptuneRegistries {
     public static final ResourceKey<Registry<Ability<?>>> ABILITY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(Neptune.MOD_ID, "ability"));
     public static final DefaultedRegistry<Ability<?>> ABILITY = new DefaultedMappedRegistry<>("empty", ABILITY_KEY, Lifecycle.stable(), false);
 

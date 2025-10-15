@@ -1,11 +1,12 @@
 package com.iafenvoy.neptune.trail;
 
 import com.iafenvoy.neptune.trail.provider.TrailProvider;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 
 public class TrailRegistry {
     private static final Map<ResourceLocation, Set<Function<Entity, TrailProvider>>> CONSTRUCTORS = new HashMap<>();

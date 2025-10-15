@@ -2,11 +2,12 @@ package com.iafenvoy.neptune.trail.render;
 
 import com.iafenvoy.neptune.trail.provider.TrailProvider;
 import com.iafenvoy.neptune.util.MathUtil;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import net.minecraft.util.Mth;
-import net.minecraft.world.phys.Vec3;
 
 public class TrailHolder {
     private final List<TrailPoint> verticalPoints = new LinkedList<>();

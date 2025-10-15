@@ -2,11 +2,10 @@ package com.iafenvoy.neptune.ability.type;
 
 import com.iafenvoy.neptune.ability.AbilityCategory;
 import com.iafenvoy.neptune.ability.AbilityDataHolder;
-import net.minecraft.resources.ResourceLocation;
 
 public final class InstantAbility extends Ability<InstantAbility> {
     public InstantAbility(AbilityCategory category) {
-        super( category);
+        super(category);
     }
 
     @Override

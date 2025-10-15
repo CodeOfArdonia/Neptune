@@ -3,8 +3,8 @@ package com.iafenvoy.neptune.ability.type;
 import com.iafenvoy.neptune.ability.AbilityCategory;
 import com.iafenvoy.neptune.ability.AbilityDataHolder;
 import com.iafenvoy.neptune.util.Timeout;
+
 import java.util.function.ToIntFunction;
-import net.minecraft.resources.ResourceLocation;
 
 public final class IntervalAbility extends Ability<IntervalAbility> {
     private ToIntFunction<AbilityDataHolder> times = data -> 0;
