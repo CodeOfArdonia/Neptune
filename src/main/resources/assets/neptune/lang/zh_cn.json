@@ -1,5 +1,5 @@
 {
-  "ability.neptune.minecraft.": "无",
+  "ability.neptune.minecraft.empty": "无",
   "argument.neptune.ability.unknown_ability": "未知技能类型",
   "argument.neptune.ability.unknown_category": "未知技能分类",
   "block.neptune.weapon_desk": "武器制作台",

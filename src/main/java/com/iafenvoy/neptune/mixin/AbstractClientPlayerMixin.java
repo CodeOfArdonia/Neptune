@@ -9,7 +9,6 @@ import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.client.resources.SkinManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -37,34 +36,29 @@ public abstract class AbstractClientPlayerMixin extends Player {
 
     @Inject(method = "getSkin", at = @At("HEAD"), cancellable = true)
     private void handleCustomSkin(CallbackInfoReturnable<PlayerSkin> cir) {
-        Optional<ResourceLocation> optional = this.neptune$findTexture(this.getItemBySlot(EquipmentSlot.HEAD));
-        if (optional.isPresent()) cir.setReturnValue(neptune$with(cir.getReturnValue(), optional.get()));
+        Optional<SkullRenderRegistry.SkinInfo> optional = this.neptune$findTexture(this.getItemBySlot(EquipmentSlot.HEAD));
+        if (optional.isPresent()) cir.setReturnValue(optional.get().copyOrCreate(cir.getReturnValue()));
         else {
             optional = this.neptune$findTexture(CuriosHelper.getEquipped(this).get(CuriosHelper.Place.HAT));
-            optional.ifPresent(x -> cir.setReturnValue(neptune$with(cir.getReturnValue(), x)));
+            optional.ifPresent(x -> cir.setReturnValue(x.copyOrCreate(cir.getReturnValue())));
         }
     }
 
     @Unique
-    private Optional<ResourceLocation> neptune$findTexture(ItemStack head) {
+    private Optional<SkullRenderRegistry.SkinInfo> neptune$findTexture(ItemStack head) {
         if (head.getItem() instanceof SkullRenderRegistry.SkullTextureProvider provider)
             return provider.getTexture(head);
         if (head.getItem() instanceof PlayerHeadItem skullItem && skullItem.getBlock() instanceof AbstractSkullBlock skullBlock) {
-            ResourceLocation texture = SkullRenderRegistry.getTextureFromType(skullBlock.getType());
+            SkullRenderRegistry.SkinInfo texture = SkullRenderRegistry.getTextureFromType(skullBlock.getType());
             if (texture != null) return Optional.of(texture);
             if (skullBlock.getType() == SkullBlock.Types.PLAYER) {
                 ResolvableProfile profile = head.get(DataComponents.PROFILE);
                 if (profile != null) {
                     SkinManager manager = Minecraft.getInstance().getSkinManager();
-                    return Optional.of(manager.getInsecureSkin(profile.gameProfile()).texture());
+                    return Optional.of(new SkullRenderRegistry.SkinInfo(manager.getInsecureSkin(profile.gameProfile())));
                 }
             }
         }
         return Optional.empty();
-    }
-
-    @Unique
-    private static PlayerSkin neptune$with(PlayerSkin origin, ResourceLocation skin) {
-        return new PlayerSkin(skin, origin.textureUrl(), origin.capeTexture(), origin.elytraTexture(), origin.model(), origin.secure());
     }
 }

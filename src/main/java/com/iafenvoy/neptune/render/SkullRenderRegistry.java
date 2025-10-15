@@ -5,6 +5,7 @@ import net.minecraft.client.model.SkullModelBase;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.blockentity.SkullBlockRenderer;
+import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -29,16 +30,24 @@ public class SkullRenderRegistry {
     }
 
     public static void register(SkullBlock.Type type, ResourceLocation texture, ModelLayerLocation layer, Block... blocks) {
-        SKULL_INFO_WITH_LAYER.add(new SkullInfoWithLayer(type, texture, layer, List.of(blocks)));
+        register(type, texture, PlayerSkin.Model.WIDE, layer, blocks);
+    }
+
+    public static void register(SkullBlock.Type type, ResourceLocation texture, PlayerSkin.Model skinModel, ModelLayerLocation layer, Block... blocks) {
+        SKULL_INFO_WITH_LAYER.add(new SkullInfoWithLayer(type, texture, skinModel, layer, List.of(blocks)));
     }
 
     public static void register(SkullBlock.Type type, ResourceLocation texture, SkullModelBase model, Block... blocks) {
-        SKULL_INFO_WITH_MODEL.add(new SkullInfoWithModel(type, texture, model, List.of(blocks)));
+        register(type, texture, PlayerSkin.Model.WIDE, model, blocks);
+    }
+
+    public static void register(SkullBlock.Type type, ResourceLocation texture, PlayerSkin.Model skinModel, SkullModelBase model, Block... blocks) {
+        SKULL_INFO_WITH_MODEL.add(new SkullInfoWithModel(type, texture, skinModel, model, List.of(blocks)));
     }
 
     @Nullable
-    public static ResourceLocation getTextureFromType(SkullBlock.Type type) {
-        return SKULL_INFO_WITH_MODEL.stream().filter(x -> x.type == type).findFirst().map(x -> x.texture).orElse(SKULL_INFO_WITH_LAYER.stream().filter(x -> x.type == type).findFirst().map(x -> x.texture).orElse(null));
+    public static SkinInfo getTextureFromType(SkullBlock.Type type) {
+        return SKULL_INFO_WITH_MODEL.stream().filter(x -> x.type == type).findFirst().map(x -> new SkinInfo(x.texture, x.skinModel)).orElse(SKULL_INFO_WITH_LAYER.stream().filter(x -> x.type == type).findFirst().map(x -> new SkinInfo(x.texture, x.skinModel)).orElse(null));
     }
 
     @SubscribeEvent
@@ -62,15 +71,26 @@ public class SkullRenderRegistry {
         return false;
     }
 
-    private record SkullInfoWithModel(SkullBlock.Type type, ResourceLocation texture, SkullModelBase model,
-                                      List<Block> blocks) {
+    private record SkullInfoWithModel(SkullBlock.Type type, ResourceLocation texture, PlayerSkin.Model skinModel,
+                                      SkullModelBase model, List<Block> blocks) {
     }
 
-    private record SkullInfoWithLayer(SkullBlock.Type type, ResourceLocation texture, ModelLayerLocation layer,
-                                      List<Block> blocks) {
+    private record SkullInfoWithLayer(SkullBlock.Type type, ResourceLocation texture, PlayerSkin.Model skinModel,
+                                      ModelLayerLocation layer, List<Block> blocks) {
+    }
+
+    public record SkinInfo(ResourceLocation texture, PlayerSkin.Model model) {
+        public SkinInfo(PlayerSkin skin) {
+            this(skin.texture(), skin.model());
+        }
+
+        public PlayerSkin copyOrCreate(PlayerSkin origin) {
+            if (origin == null) return new PlayerSkin(this.texture(), null, null, null, this.model, true);
+            return new PlayerSkin(this.texture(), origin.textureUrl(), origin.capeTexture(), origin.elytraTexture(), this.model, origin.secure());
+        }
     }
 
     public interface SkullTextureProvider {
-        Optional<ResourceLocation> getTexture(ItemStack stack);
+        Optional<SkinInfo> getTexture(ItemStack stack);
     }
 }

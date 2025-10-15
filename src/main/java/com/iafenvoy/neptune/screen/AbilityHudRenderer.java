@@ -13,17 +13,18 @@ import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class AbilityHudRenderer {
-    private static final ResourceLocation WIDGETS_TEXTURE = ResourceLocation.withDefaultNamespace("textures/gui/widgets.png");
+    private static final ResourceLocation HOTBAR_SELECTION_SPRITE = ResourceLocation.withDefaultNamespace("hud/hotbar_selection");
+    private static final ResourceLocation HOTBAR_OFFHAND_LEFT_SPRITE = ResourceLocation.withDefaultNamespace("hud/hotbar_offhand_left");
+    private static final ResourceLocation HOTBAR_OFFHAND_RIGHT_SPRITE = ResourceLocation.withDefaultNamespace("hud/hotbar_offhand_right");
     private static final Font TEXT_RENDERER = Minecraft.getInstance().font;
 
     public static void render(Minecraft client, GuiGraphics context) {
         if (client.player == null || client.player.isSpectator()) return;
         AbilityData data = AbilityData.get(client.player);
-        if (!data.isEnabled()) return;
         //Render Ability Slot
         int width = context.guiWidth();
         int height = context.guiHeight();
-        int x = width / 2 + 120, y = height - 22, i = 0;
+        int x = width / 2 + 120, y = height - 24, i = 0;
         for (AbilityCategory category : NeptuneRegistries.ABILITY_CATEGORY)
             if (category.shouldDisplay() && data.isEnabled(category)) {
                 renderOne(x + i * 21, y, context, data.get(category));
@@ -32,8 +33,9 @@ public class AbilityHudRenderer {
     }
 
     private static void renderOne(int x, int y, GuiGraphics context, AbilityData.SingleAbilityData data) {
+        context.pose().pushPose();
         AbilityKeybindings.KeyBindingHolder binding = AbilityKeybindings.get(data.getType());
-        context.blit(WIDGETS_TEXTURE, x, y, 59, 22, 23, 23);
+        context.blitSprite(HOTBAR_OFFHAND_LEFT_SPRITE, x, y, 29, 24);
         //Render Cooldown
         String text = switch (data.getState()) {
             case ALLOW -> "§aR";
@@ -42,7 +44,10 @@ public class AbilityHudRenderer {
         };
         context.drawString(TEXT_RENDERER, text, x + 2, y - 10, 0xFFFFFFFF);
         //Render Ability Icon
-        if (binding.isPressed() || data.isEnabled()) context.blit(WIDGETS_TEXTURE, x + 1, y + 1, 1, 23, 23, 23);
-        context.blit(data.getActiveAbility().getIconTexture(), x + 4, y + 4, 0, 0, 16, 16, 16, 16);
+        context.pose().translate(0, 0, 1);
+        if (binding.isPressed() || data.isEnabled()) context.blitSprite(HOTBAR_SELECTION_SPRITE, x - 1, y, 24, 23);
+        context.pose().translate(0, 0, 2);
+        context.blit(data.getActiveAbility().getIconTexture(), x + 3, y + 4, 0, 0, 16, 16, 16, 16);
+        context.pose().popPose();
     }
 }

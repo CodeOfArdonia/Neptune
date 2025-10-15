@@ -9,7 +9,9 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.BooleanSupplier;
 import java.util.stream.Stream;
 
@@ -17,7 +19,6 @@ public class AbilityCategory {
     private final Color4i color;
     private final BooleanSupplier shouldDisplay;
     private final List<Ability<?>> abilities = new ArrayList<>();
-    private final Map<ResourceLocation, Ability<?>> byId = new HashMap<>();
 
     public AbilityCategory(Color4i color, BooleanSupplier shouldDisplay) {
         this.color = color;
@@ -38,9 +39,6 @@ public class AbilityCategory {
 
     public void registerAbility(Ability<?> ability) {
         this.abilities.add(ability);
-        Ability<?> p = this.byId.put(ability.getId(), ability);
-        if (p != null)
-            throw new IllegalArgumentException("Duplicated id " + p.getId() + " for ability type " + this.getId() + "!");
     }
 
     public Ability<?> getAbilityById(ResourceLocation id) {

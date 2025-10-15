@@ -40,6 +40,7 @@ public class AbilityData implements Serializable, Tickable {
     }
 
     private AbilityData(CompoundTag tag) {
+        this();
         this.decode(tag);
     }
 
@@ -109,7 +110,7 @@ public class AbilityData implements Serializable, Tickable {
     }
 
     public SingleAbilityData get(AbilityCategory category) {
-        return this.abilityData.get(category);
+        return this.abilityData.computeIfAbsent(category, c -> new SingleAbilityData(this, c));
     }
 
     public void addComponent(ResourceLocation id, Serializable serializable) {
@@ -211,10 +212,8 @@ public class AbilityData implements Serializable, Tickable {
                 if (this.activeAbility.isPersist()) this.enable(player);
                 else if (this.getState() != State.DENY) {
                     boolean bl = this.getState() == State.RECOVER;
-                    if (this.activeAbility.apply(this, player) && bl) {
+                    if (this.activeAbility.apply(this, player) && bl)
                         player.causeFoodExhaustion((float) this.activeAbility.getExhaustion(this, player));
-                        this.secondaryCooldown = 0;
-                    }
                 }
             }
         }
