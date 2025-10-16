@@ -3,11 +3,12 @@ package com.iafenvoy.neptune.ability.type;
 import com.iafenvoy.neptune.ability.AbilityCategory;
 import com.iafenvoy.neptune.ability.AbilityDataHolder;
 import com.iafenvoy.neptune.util.Timeout;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public final class DelayAbility extends Ability<DelayAbility> {
     private int delay = 0;
 
-    public DelayAbility(AbilityCategory category) {
+    public DelayAbility(DeferredHolder<AbilityCategory, AbilityCategory> category) {
         super(category);
     }
 

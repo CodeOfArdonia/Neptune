@@ -3,6 +3,7 @@ package com.iafenvoy.neptune.ability.type;
 import com.iafenvoy.neptune.ability.AbilityCategory;
 import com.iafenvoy.neptune.ability.AbilityDataHolder;
 import com.iafenvoy.neptune.util.Timeout;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.function.ToIntFunction;
 
@@ -10,7 +11,7 @@ public final class IntervalAbility extends Ability<IntervalAbility> {
     private ToIntFunction<AbilityDataHolder> times = data -> 0;
     private ToIntFunction<AbilityDataHolder> interval = data -> 0;
 
-    public IntervalAbility(AbilityCategory category) {
+    public IntervalAbility(DeferredHolder<AbilityCategory, AbilityCategory> category) {
         super(category);
     }
 

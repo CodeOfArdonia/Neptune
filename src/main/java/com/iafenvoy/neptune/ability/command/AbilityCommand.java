@@ -46,12 +46,12 @@ public final class AbilityCommand {
                                         .suggests(AbilitySuggestions.ABILITY_CATEGORY)
                                         .then(argument("ability", ResourceLocationArgument.id())
                                                 .suggests(AbilitySuggestions.ABILITY_TYPE)
-                                                .executes(ctx -> grantAbility(ctx, true))
+                                                .executes(AbilityCommand::grantAbility)
                                         )))
                         .then(literal("remove")
                                 .then(argument("category", ResourceLocationArgument.id())
                                         .suggests(AbilitySuggestions.ABILITY_TYPE)
-                                        .executes(ctx -> grantAbility(ctx, false))
+                                        .executes(AbilityCommand::removeAbility)
                                 ))
                 )
         );
@@ -65,7 +65,7 @@ public final class AbilityCommand {
         return players.size();
     }
 
-    private static int grantAbility(CommandContext<CommandSourceStack> context, boolean grant) throws CommandSyntaxException {
+    private static int grantAbility(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         Collection<ServerPlayer> players = EntityArgument.getPlayers(context, "targets");
         Optional<AbilityCategory> optional = AbilityCategory.byId(ResourceLocationArgument.getId(context, "category"));
         if (optional.isEmpty()) throw UNKNOWN_CATEGORY.create();
@@ -77,7 +77,7 @@ public final class AbilityCommand {
         return players.size();
     }
 
-    private static int removeAbility(CommandContext<CommandSourceStack> context, boolean grant) throws CommandSyntaxException {
+    private static int removeAbility(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         Collection<ServerPlayer> players = EntityArgument.getPlayers(context, "targets");
         Optional<AbilityCategory> optional = AbilityCategory.byId(ResourceLocationArgument.getId(context, "category"));
         if (optional.isEmpty()) throw UNKNOWN_CATEGORY.create();

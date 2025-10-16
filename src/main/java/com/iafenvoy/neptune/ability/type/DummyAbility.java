@@ -6,6 +6,7 @@ import com.iafenvoy.neptune.registry.NeptuneRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
 @EventBusSubscriber
@@ -23,7 +24,7 @@ public non-sealed abstract class DummyAbility extends Ability<DummyAbility> {
             event.register(NeptuneRegistries.ABILITY_KEY, ResourceLocation.withDefaultNamespace("empty"), () -> EMPTY);
     }
 
-    public DummyAbility(AbilityCategory category) {
+    public DummyAbility(DeferredHolder<AbilityCategory, AbilityCategory> category) {
         super(category);
     }
 

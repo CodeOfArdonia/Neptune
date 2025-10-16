@@ -16,15 +16,15 @@ import net.neoforged.neoforge.registries.NewRegistryEvent;
 
 @EventBusSubscriber
 public final class NeptuneRegistries {
-    public static final ResourceKey<Registry<Ability<?>>> ABILITY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(Neptune.MOD_ID, "ability"));
-    public static final DefaultedRegistry<Ability<?>> ABILITY = new DefaultedMappedRegistry<>("empty", ABILITY_KEY, Lifecycle.stable(), false);
-
     public static final ResourceKey<Registry<AbilityCategory>> ABILITY_CATEGORY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(Neptune.MOD_ID, "ability_category"));
     public static final Registry<AbilityCategory> ABILITY_CATEGORY = new MappedRegistry<>(ABILITY_CATEGORY_KEY, Lifecycle.stable(), false);
 
+    public static final ResourceKey<Registry<Ability<?>>> ABILITY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(Neptune.MOD_ID, "ability"));
+    public static final DefaultedRegistry<Ability<?>> ABILITY = new DefaultedMappedRegistry<>("empty", ABILITY_KEY, Lifecycle.stable(), false);
+
     @SubscribeEvent
     public static void newRegistries(NewRegistryEvent event) {
-        event.register(ABILITY);
         event.register(ABILITY_CATEGORY);
+        event.register(ABILITY);
     }
 }

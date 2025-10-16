@@ -2,9 +2,10 @@ package com.iafenvoy.neptune.ability.type;
 
 import com.iafenvoy.neptune.ability.AbilityCategory;
 import com.iafenvoy.neptune.ability.AbilityDataHolder;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public final class InstantAbility extends Ability<InstantAbility> {
-    public InstantAbility(AbilityCategory category) {
+    public InstantAbility(DeferredHolder<AbilityCategory, AbilityCategory> category) {
         super(category);
     }
 

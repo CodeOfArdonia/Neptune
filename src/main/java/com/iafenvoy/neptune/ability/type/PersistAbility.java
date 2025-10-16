@@ -6,6 +6,7 @@ import com.iafenvoy.neptune.ability.AbilityDataHolder;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
@@ -18,7 +19,7 @@ public final class PersistAbility extends Ability<PersistAbility> {
     @Nullable
     private Supplier<SoundEvent> unapplySound;
 
-    public PersistAbility(AbilityCategory category) {
+    public PersistAbility(DeferredHolder<AbilityCategory, AbilityCategory> category) {
         super(category);
     }
 

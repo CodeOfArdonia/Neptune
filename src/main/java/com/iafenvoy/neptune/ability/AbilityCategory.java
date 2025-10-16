@@ -1,5 +1,6 @@
 package com.iafenvoy.neptune.ability;
 
+import com.google.common.base.Suppliers;
 import com.iafenvoy.neptune.ability.type.Ability;
 import com.iafenvoy.neptune.ability.type.DummyAbility;
 import com.iafenvoy.neptune.registry.NeptuneRegistries;
@@ -9,16 +10,16 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class AbilityCategory {
     private final Color4i color;
     private final BooleanSupplier shouldDisplay;
-    private final List<Ability<?>> abilities = new ArrayList<>();
+    private final Supplier<List<Ability<?>>> abilities = Suppliers.memoize(() -> NeptuneRegistries.ABILITY.stream().filter(x -> x.getCategory() == this).toList());
 
     public AbilityCategory(Color4i color, BooleanSupplier shouldDisplay) {
         this.color = color;
@@ -37,24 +38,20 @@ public class AbilityCategory {
         return text.withStyle(Style.EMPTY.withColor(this.getColor().getIntValue()));
     }
 
-    public void registerAbility(Ability<?> ability) {
-        this.abilities.add(ability);
-    }
-
     public Ability<?> getAbilityById(ResourceLocation id) {
-        return this.abilities.stream().filter(x -> x.getId().equals(id)).findFirst().orElse(DummyAbility.EMPTY);
+        return this.abilities.get().stream().filter(x -> x.getId().equals(id)).findFirst().orElse(DummyAbility.EMPTY);
     }
 
     public Ability<?> randomOne() {
-        return RandomHelper.randomOne(this.abilities);
+        return RandomHelper.randomOne(this.abilities.get());
     }
 
     public List<Ability<?>> getAbilities() {
-        return this.abilities;
+        return this.abilities.get();
     }
 
     public Stream<ResourceLocation> streamAbilityIds() {
-        return this.abilities.stream().map(Ability::getId);
+        return this.abilities.get().stream().map(Ability::getId);
     }
 
     public static Optional<AbilityCategory> byId(ResourceLocation id) {
