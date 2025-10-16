@@ -6,12 +6,14 @@ import com.iafenvoy.neptune.registry.NeptuneRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.RegisterEvent;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Supplier;
 
 @EventBusSubscriber
 public non-sealed abstract class DummyAbility extends Ability<DummyAbility> {
-    public static final DummyAbility EMPTY = new DummyAbility(null) {
+    public static final DummyAbility EMPTY = new DummyAbility(AbilityCategory.EMPTY) {
         @Override
         protected boolean applyInternal(AbilityDataHolder holder) {
             return true;
@@ -24,7 +26,7 @@ public non-sealed abstract class DummyAbility extends Ability<DummyAbility> {
             event.register(NeptuneRegistries.ABILITY_KEY, ResourceLocation.withDefaultNamespace("empty"), () -> EMPTY);
     }
 
-    public DummyAbility(DeferredHolder<AbilityCategory, AbilityCategory> category) {
+    public DummyAbility(@NotNull Supplier<AbilityCategory> category) {
         super(category);
     }
 

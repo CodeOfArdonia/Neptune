@@ -12,7 +12,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.network.PacketDistributor;
-import net.neoforged.neoforge.registries.DeferredHolder;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
@@ -21,7 +21,8 @@ import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 
 public sealed abstract class Ability<T extends Ability<T>> permits DelayAbility, DummyAbility, InstantAbility, IntervalAbility, PersistAbility {
-    private final DeferredHolder<AbilityCategory, AbilityCategory> category;
+    @NotNull
+    private final Supplier<AbilityCategory> category;
     private Consumer<Ability<?>> init = self -> {
     };
     private ToIntFunction<AbilityDataHolder> primaryCooldownSupplier = data -> 0, secondaryCooldownSupplier = data -> 0;
@@ -32,7 +33,7 @@ public sealed abstract class Ability<T extends Ability<T>> permits DelayAbility,
     protected Supplier<SoundEvent> applySound;
     private boolean experimental = false;
 
-    public Ability(DeferredHolder<AbilityCategory, AbilityCategory> category) {
+    public Ability(@NotNull Supplier<AbilityCategory> category) {
         this.category = category;
     }
 

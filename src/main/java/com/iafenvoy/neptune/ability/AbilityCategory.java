@@ -9,6 +9,9 @@ import com.iafenvoy.neptune.util.RandomHelper;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,10 +19,18 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+@EventBusSubscriber
 public class AbilityCategory {
+    public static final Supplier<AbilityCategory> EMPTY = Suppliers.memoize(() -> new AbilityCategory(new Color4i(0, 0, 0, 0), () -> false));
     private final Color4i color;
     private final BooleanSupplier shouldDisplay;
     private final Supplier<List<Ability<?>>> abilities = Suppliers.memoize(() -> NeptuneRegistries.ABILITY.stream().filter(x -> x.getCategory() == this).toList());
+
+    @SubscribeEvent
+    public static void registerDefaulted(RegisterEvent event) {
+        if (event.getRegistryKey() == NeptuneRegistries.ABILITY_CATEGORY_KEY)
+            event.register(NeptuneRegistries.ABILITY_CATEGORY_KEY, ResourceLocation.withDefaultNamespace("empty"), EMPTY);
+    }
 
     public AbilityCategory(Color4i color, BooleanSupplier shouldDisplay) {
         this.color = color;

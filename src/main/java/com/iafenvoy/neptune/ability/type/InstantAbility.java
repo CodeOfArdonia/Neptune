@@ -2,10 +2,12 @@ package com.iafenvoy.neptune.ability.type;
 
 import com.iafenvoy.neptune.ability.AbilityCategory;
 import com.iafenvoy.neptune.ability.AbilityDataHolder;
-import net.neoforged.neoforge.registries.DeferredHolder;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Supplier;
 
 public final class InstantAbility extends Ability<InstantAbility> {
-    public InstantAbility(DeferredHolder<AbilityCategory, AbilityCategory> category) {
+    public InstantAbility(@NotNull Supplier<AbilityCategory> category) {
         super(category);
     }
 
