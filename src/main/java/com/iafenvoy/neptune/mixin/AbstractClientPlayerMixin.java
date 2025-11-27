@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.AbstractSkullBlock;
 import net.minecraft.world.level.block.SkullBlock;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -39,13 +40,14 @@ public abstract class AbstractClientPlayerMixin extends Player {
         Optional<SkullRenderRegistry.SkinInfo> optional = this.neptune$findTexture(this.getItemBySlot(EquipmentSlot.HEAD));
         if (optional.isPresent()) cir.setReturnValue(optional.get().copyOrCreate(cir.getReturnValue()));
         else {
-            optional = this.neptune$findTexture(CuriosHelper.getEquipped(this).get(CuriosHelper.Place.HAT));
+            optional = this.neptune$findTexture(CuriosHelper.getEquipped(this).getOrDefault(CuriosHelper.Place.HAT, ItemStack.EMPTY));
             optional.ifPresent(x -> cir.setReturnValue(x.copyOrCreate(cir.getReturnValue())));
         }
     }
 
     @Unique
-    private Optional<SkullRenderRegistry.SkinInfo> neptune$findTexture(ItemStack head) {
+    private Optional<SkullRenderRegistry.SkinInfo> neptune$findTexture(@NotNull ItemStack head) {
+        if (head.isEmpty()) return Optional.empty();
         if (head.getItem() instanceof SkullRenderRegistry.SkullTextureProvider provider)
             return provider.getTexture(head);
         if (head.getItem() instanceof PlayerHeadItem skullItem && skullItem.getBlock() instanceof AbstractSkullBlock skullBlock) {
