@@ -2,7 +2,6 @@ package com.iafenvoy.neptune.trail.render;
 
 import com.iafenvoy.neptune.Neptune;
 import com.iafenvoy.neptune.trail.provider.TrailProvider;
-import com.iafenvoy.neptune.util.Color4i;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -103,18 +102,14 @@ public class TrailEffect {
         this.effect.getHorizontalRenderPoints().clear();
         this.effect.getHorizontalRenderPoints().addAll(adjustedHorizontal);
 
-        Color4i trailColor = this.provider.getTrailColor();
+        int trailColor = this.provider.getTrailColor();
         int light = this.provider.getTrailLight(tickDelta);
         this.renderTrail(provider, matrices, true, trailColor, light);
         if (this.provider.shouldRenderHorizontal()) this.renderTrail(provider, matrices, false, trailColor, light);
     }
 
-    private void renderTrail(MultiBufferSource provider, PoseStack matrices, boolean vertical, Color4i color, int light) {
+    private void renderTrail(MultiBufferSource provider, PoseStack matrices, boolean vertical, int color, int light) {
         VertexConsumer consumer = provider.getBuffer(Layer.TRANSLUCENT_NO_DEPTH.apply(TRAIL_TEXTURE));
-        float r = color.getR();
-        float g = color.getG();
-        float b = color.getB();
-        float a = color.getA();
         List<TrailHolder.TrailPoint> points = vertical ? this.effect.getVerticalRenderPoints() : this.effect.getHorizontalRenderPoints();
         if (points.size() >= 2) {
             for (int i = 0; i < points.size() - 1; i++) {
@@ -122,10 +117,11 @@ public class TrailEffect {
                 TrailHolder.TrailPoint to = points.get(i + 1);
                 Matrix4f pose = matrices.last().pose();
                 PoseStack.Pose normal = matrices.last();
-                consumer.addVertex(pose, (float) from.upper().x, (float) from.upper().y, (float) from.upper().z).setColor(r, g, b, i == 0 ? 0 : a).setUv(0, 0).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(normal, 0, 1, 0);
-                consumer.addVertex(pose, (float) to.upper().x, (float) to.upper().y, (float) to.upper().z).setColor(r, g, b, a).setUv(1, 0).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(normal, 0, 1, 0);
-                consumer.addVertex(pose, (float) to.lower().x, (float) to.lower().y, (float) to.lower().z).setColor(r, g, b, a).setUv(1, 1).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(normal, 0, 1, 0);
-                consumer.addVertex(pose, (float) from.lower().x, (float) from.lower().y, (float) from.lower().z).setColor(r, g, b, i == 0 ? 0 : a).setUv(0, 1).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(normal, 0, 1, 0);
+                int endColor = i == 0 ? color & 0xFFFFFF : color;
+                consumer.addVertex(pose, (float) from.upper().x, (float) from.upper().y, (float) from.upper().z).setColor(endColor).setUv(0, 0).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(normal, 0, 1, 0);
+                consumer.addVertex(pose, (float) to.upper().x, (float) to.upper().y, (float) to.upper().z).setColor(color).setUv(1, 0).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(normal, 0, 1, 0);
+                consumer.addVertex(pose, (float) to.lower().x, (float) to.lower().y, (float) to.lower().z).setColor(color).setUv(1, 1).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(normal, 0, 1, 0);
+                consumer.addVertex(pose, (float) from.lower().x, (float) from.lower().y, (float) from.lower().z).setColor(endColor).setUv(0, 1).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(normal, 0, 1, 0);
             }
         }
     }

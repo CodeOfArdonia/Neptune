@@ -9,7 +9,6 @@ import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
-import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,24 +21,26 @@ public class CuriosHelper {
     private static final Map<Item, BeltHolder> BELT_HOLDERS = new HashMap<>();
 
     //FIXME::Laggy code
-    public static Map<Place, ItemStack> getEquipped(LivingEntity living) {
+    public static Map<Place, ItemStack> getEquippedForCosmetic(LivingEntity living) {
         Optional<ICuriosItemHandler> lazyOptional = CuriosApi.getCuriosInventory(living);
         Map<Place, ItemStack> map = new HashMap<>();
         if (lazyOptional.isEmpty()) return map;
         ICuriosItemHandler handler = lazyOptional.get();
         Map<String, ICurioStacksHandler> all = handler.getCurios();
-        findAndApply(all.get("back").getStacks(), stack -> map.put(Place.BACK_RIGHT, stack), stack -> map.put(Place.BACK_LEFT, stack));
-        findAndApply(all.get("belt").getStacks(), stack -> map.put(Place.BELT_RIGHT, stack), stack -> map.put(Place.BELT_LEFT, stack));
-        findAndApply(all.get("necklace").getStacks(), stack -> map.put(Place.NECKLACE, stack));
-        findAndApply(all.get("feet").getStacks(), stack -> map.put(Place.FEET, stack));
-        findAndApply(all.get("head").getStacks(), stack -> map.put(Place.HAT, stack));
+        findAndApply(all.get("back"), stack -> map.put(Place.BACK_RIGHT, stack), stack -> map.put(Place.BACK_LEFT, stack));
+        findAndApply(all.get("belt"), stack -> map.put(Place.BELT_RIGHT, stack), stack -> map.put(Place.BELT_LEFT, stack));
+        findAndApply(all.get("necklace"), stack -> map.put(Place.NECKLACE, stack));
+        findAndApply(all.get("feet"), stack -> map.put(Place.FEET, stack));
+        findAndApply(all.get("head"), stack -> map.put(Place.HAT, stack));
         return map;
     }
 
     @SafeVarargs
-    private static void findAndApply(IDynamicStackHandler handler, Consumer<ItemStack>... consumers) {
+    private static void findAndApply(ICurioStacksHandler handler, Consumer<ItemStack>... consumers) {
+        if (handler == null) return;
         for (int i = 0; i < handler.getSlots() && i < consumers.length; i++)
-            consumers[i].accept(handler.getStackInSlot(i));
+            if (handler.getRenders().get(i))
+                consumers[i].accept(handler.getCosmeticStacks().getStackInSlot(i));
     }
 
     @Nullable

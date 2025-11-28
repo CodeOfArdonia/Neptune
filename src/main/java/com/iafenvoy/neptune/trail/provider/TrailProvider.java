@@ -1,7 +1,6 @@
 package com.iafenvoy.neptune.trail.provider;
 
 import com.iafenvoy.neptune.trail.render.TrailHolder;
-import com.iafenvoy.neptune.util.Color4i;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.Position;
 import net.minecraft.world.phys.Vec3;
@@ -13,7 +12,7 @@ public interface TrailProvider extends Position {
 
     Vec3 getCurrentPos();
 
-    Color4i getTrailColor();
+    int getTrailColor();
 
     @Override
     default double x() {

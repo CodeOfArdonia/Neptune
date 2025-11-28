@@ -41,7 +41,7 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends 
 
     @Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFF)V", at = @At("RETURN"))
     private void renderAccessories(PoseStack matrices, MultiBufferSource vertexConsumers, int i, T livingEntity, float f, float g, float h, float j, float k, float l, CallbackInfo ci) {
-        Map<CuriosHelper.Place, ItemStack> equipped = CuriosHelper.getEquipped(livingEntity);
+        Map<CuriosHelper.Place, ItemStack> equipped = CuriosHelper.getEquippedForCosmetic(livingEntity);
         for (CuriosHelper.Place place : List.of(CuriosHelper.Place.HAT, CuriosHelper.Place.NECKLACE, CuriosHelper.Place.FEET)) {
             ItemStack stack = equipped.get(place);
             if (stack == null || stack.isEmpty()) continue;

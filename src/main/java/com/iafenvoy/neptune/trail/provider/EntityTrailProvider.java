@@ -2,20 +2,19 @@ package com.iafenvoy.neptune.trail.provider;
 
 import com.iafenvoy.neptune.trail.TrailManager;
 import com.iafenvoy.neptune.trail.render.TrailHolder;
-import com.iafenvoy.neptune.util.Color4i;
 import com.iafenvoy.neptune.util.MathUtil;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 
 public class EntityTrailProvider<T extends Entity> implements TrailProvider {
     private final T entity;
-    private final Color4i color;
+    private final int color;
     private final float width;
     private final int length;
     private final Vec3 offset;
     private final boolean followRotation;
 
-    protected EntityTrailProvider(T entity, Color4i color, float width, int length, Vec3 offset, boolean followRotation) {
+    protected EntityTrailProvider(T entity, int color, float width, int length, Vec3 offset, boolean followRotation) {
         this.entity = entity;
         this.color = color;
         this.width = width;
@@ -42,7 +41,7 @@ public class EntityTrailProvider<T extends Entity> implements TrailProvider {
     }
 
     @Override
-    public Color4i getTrailColor() {
+    public int getTrailColor() {
         return this.color;
     }
 
@@ -61,13 +60,13 @@ public class EntityTrailProvider<T extends Entity> implements TrailProvider {
     }
 
     public static class Builder<T extends Entity> {
-        protected Color4i color = new Color4i(160, 164, 195, 255);
+        protected int color = 0xFFA0A4C3;
         protected float width = 0.3f;
         protected int length = 15;
         protected Vec3 offset = Vec3.ZERO;
         protected boolean followRotation;
 
-        public Builder<T> color(Color4i color) {
+        public Builder<T> color(int color) {
             this.color = color;
             return this;
         }

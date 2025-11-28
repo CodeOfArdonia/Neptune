@@ -1,5 +1,6 @@
 {
   "size": 1,
   "order": 190,
-  "icon": "minecraft:item/empty_armor_slot_boots"
+  "icon": "minecraft:item/empty_armor_slot_boots",
+  "add_cosmetic": true
 }

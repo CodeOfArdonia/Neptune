@@ -4,7 +4,6 @@ import com.google.common.base.Suppliers;
 import com.iafenvoy.neptune.ability.type.Ability;
 import com.iafenvoy.neptune.ability.type.DummyAbility;
 import com.iafenvoy.neptune.registry.NeptuneRegistries;
-import com.iafenvoy.neptune.util.Color4i;
 import com.iafenvoy.neptune.util.RandomHelper;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
@@ -21,8 +20,8 @@ import java.util.stream.Stream;
 
 @EventBusSubscriber
 public class AbilityCategory {
-    public static final Supplier<AbilityCategory> EMPTY = Suppliers.memoize(() -> new AbilityCategory(new Color4i(0, 0, 0, 0), () -> false));
-    private final Color4i color;
+    public static final Supplier<AbilityCategory> EMPTY = Suppliers.memoize(() -> new AbilityCategory(0, () -> false));
+    private final int color;
     private final BooleanSupplier shouldDisplay;
     private final Supplier<List<Ability<?>>> abilities = Suppliers.memoize(() -> NeptuneRegistries.ABILITY.stream().filter(x -> x.getCategory() == this).toList());
 
@@ -32,7 +31,7 @@ public class AbilityCategory {
             event.register(NeptuneRegistries.ABILITY_CATEGORY_KEY, ResourceLocation.withDefaultNamespace("empty"), EMPTY);
     }
 
-    public AbilityCategory(Color4i color, BooleanSupplier shouldDisplay) {
+    public AbilityCategory(int color, BooleanSupplier shouldDisplay) {
         this.color = color;
         this.shouldDisplay = shouldDisplay;
     }
@@ -41,12 +40,12 @@ public class AbilityCategory {
         return NeptuneRegistries.ABILITY_CATEGORY.getKey(this);
     }
 
-    public Color4i getColor() {
+    public int getColor() {
         return this.color;
     }
 
     public MutableComponent appendColor(MutableComponent text) {
-        return text.withStyle(Style.EMPTY.withColor(this.getColor().getIntValue()));
+        return text.withStyle(Style.EMPTY.withColor(this.getColor()));
     }
 
     public Ability<?> getAbilityById(ResourceLocation id) {

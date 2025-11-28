@@ -32,7 +32,7 @@ public class BackToolRenderer extends ItemInHandLayer<AbstractClientPlayer, Play
 
     @Override
     public void render(@NotNull PoseStack matrices, @NotNull MultiBufferSource provider, int i, @NotNull AbstractClientPlayer entity, float f, float g, float h, float j, float k, float l) {
-        Map<CuriosHelper.Place, ItemStack> stacks = CuriosHelper.getEquipped(entity);
+        Map<CuriosHelper.Place, ItemStack> stacks = CuriosHelper.getEquippedForCosmetic(entity);
         if (entity.getItemBySlot(EquipmentSlot.CHEST).getItem() == Items.ELYTRA)
             return;
         if (stacks.containsKey(CuriosHelper.Place.BACK_LEFT))

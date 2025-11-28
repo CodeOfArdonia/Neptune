@@ -29,7 +29,7 @@ public class BeltToolRenderer extends ItemInHandLayer<AbstractClientPlayer, Play
 
     @Override
     public void render(@NotNull PoseStack matrices, @NotNull MultiBufferSource provider, int i, @NotNull AbstractClientPlayer entity, float f, float g, float h, float j, float k, float l) {
-        Map<CuriosHelper.Place, ItemStack> stacks = CuriosHelper.getEquipped(entity);
+        Map<CuriosHelper.Place, ItemStack> stacks = CuriosHelper.getEquippedForCosmetic(entity);
         if (stacks.containsKey(CuriosHelper.Place.BELT_LEFT))
             this.renderItem(stacks.get(CuriosHelper.Place.BELT_LEFT), matrices, provider, i, entity, true);
         if (stacks.containsKey(CuriosHelper.Place.BELT_RIGHT))

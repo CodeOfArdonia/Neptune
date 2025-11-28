@@ -40,7 +40,7 @@ public abstract class AbstractClientPlayerMixin extends Player {
         Optional<SkullRenderRegistry.SkinInfo> optional = this.neptune$findTexture(this.getItemBySlot(EquipmentSlot.HEAD));
         if (optional.isPresent()) cir.setReturnValue(optional.get().copyOrCreate(cir.getReturnValue()));
         else {
-            optional = this.neptune$findTexture(CuriosHelper.getEquipped(this).getOrDefault(CuriosHelper.Place.HAT, ItemStack.EMPTY));
+            optional = this.neptune$findTexture(CuriosHelper.getEquippedForCosmetic(this).getOrDefault(CuriosHelper.Place.HAT, ItemStack.EMPTY));
             optional.ifPresent(x -> cir.setReturnValue(x.copyOrCreate(cir.getReturnValue())));
         }
     }

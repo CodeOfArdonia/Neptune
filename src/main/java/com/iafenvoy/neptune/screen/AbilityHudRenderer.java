@@ -15,7 +15,6 @@ import net.neoforged.api.distmarker.OnlyIn;
 public class AbilityHudRenderer {
     private static final ResourceLocation HOTBAR_SELECTION_SPRITE = ResourceLocation.withDefaultNamespace("hud/hotbar_selection");
     private static final ResourceLocation HOTBAR_OFFHAND_LEFT_SPRITE = ResourceLocation.withDefaultNamespace("hud/hotbar_offhand_left");
-    private static final ResourceLocation HOTBAR_OFFHAND_RIGHT_SPRITE = ResourceLocation.withDefaultNamespace("hud/hotbar_offhand_right");
     private static final Font TEXT_RENDERER = Minecraft.getInstance().font;
 
     public static void render(Minecraft client, GuiGraphics context) {
